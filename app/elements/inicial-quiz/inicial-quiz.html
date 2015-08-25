@@ -1,0 +1,63 @@
+<dom-module id="inicial-quiz">
+  <style>
+
+    @media (max-width: 600px) {
+      h1.paper-font-display1 {
+        font-size: 24px;
+      }
+    }
+
+    paper-radio-group {
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    paper-radio-button {
+      display: inline;
+      margin-left: 15px;
+    }
+
+    paper-fab {
+      display: block;
+      margin-bottom:24px;
+      margin-left: 80%;
+      margin-right: auto;
+    }
+
+    paper-fab.red {
+      --paper-fab-background: var(--paper-red-500);
+      --paper-fab-keyboard-focus-background: var(--paper-red-600);
+    }
+
+  </style>
+  <template>
+    <div style="padding-bottom: 10px;">
+      <h1> Desafio </h1>
+      <span class="paper-font-body2">Composto de 10 questões oficiais do programa de avaliação para arbitragem da Fifa</span>
+    </div>
+    <div>
+      <span class="paper-font-body2">Escolha o nível do teste:</span>
+    </div>
+    <paper-radio-group selected="facil">
+      <paper-radio-button name="facil">Fácil</paper-radio-button>
+      <paper-radio-button name="dificil">Dificil</paper-radio-button>
+      <paper-radio-button name="aleatório">Aleatório</paper-radio-button>
+    </paper-radio-group>
+    <div>
+      <paper-fab icon="arrow-forward" title="arrow-forward" tabindex="0" on-tap="{{}}"></paper-fab>
+    </div>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'inicial-quiz',
+
+        properties: {
+
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

@@ -1,0 +1,95 @@
+<dom-module id="quiz-play">
+  <style>
+    :host {
+      height: 100%;
+    }
+
+    paper-radio-button {
+      display: block;
+    }
+
+    .fluxo {
+      padding: 10px;
+      display: flex;
+      width: 100%;
+    }
+
+    @media (max-width: 600px) {
+      h1.paper-font-display1 {
+        font-size: 24px;
+      }
+    }
+  </style>
+  <template>
+    <iron-pages id="teste" selected="0">
+      <template is="dom-repeat" items="{{questions}}" as="ask">
+        <div>
+            <p><b>{{ask.number}}</b> - <b>{{ask.description}}</b></p>
+            <paper-radio-group layout vertical>
+              <template is="dom-repeat" items="{{ask.answers}}" as="answer">
+                  <paper-radio-button><b>{{answer.option}}</b>) <span>{{answer.description}}</span></paper-radio-button>
+              </template>
+            </paper-radio-group>
+        </div>
+      </template>
+    </iron-pages>
+    <div class="fluxo">
+      <div style="width: 95%">
+        <paper-icon-button icon="arrow-back" alt="arrow-back" class="orange" on-tap="back"></paper-icon-button>
+      </div>
+      <div style="width: 5%">
+        <paper-icon-button icon="arrow-forward" alt="arrow-forward" class="green" on-tap="forward"></paper-icon-button>
+      </div>
+    </div>
+
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'quiz-play',
+        questions: [],
+        ready: function() {
+          this.questions = [
+            {number: 1, description: 'Qual a cor dos cartões?',
+              answers: [
+                {option: 'a', description: 'Vermelho e Laranja'},
+                {option: 'b', description: 'Azul e Amarelo'},
+                {option: 'c', description: 'Verde e Roxo'},
+                {option: 'd', description: 'Vermelho e Amarelo'},
+                {option: 'e', description: 'Branco e Preto'}
+              ],
+              correta: 'd'},
+            {number: 2, description: 'Qual a cor da roupa dos arbitros?',
+              answers: [
+                {option: 'a', description: 'Azul e Amarelo'},
+                {option: 'b', description: 'Vermelho e Laranja'},
+                {option: 'c', description: 'Vermelho e Amarelo'},
+                {option: 'd', description: 'Verde e Roxo'},
+                {option: 'e', description: 'Branco e Preto'}
+              ],
+              correta: 'e'},
+            {number: 3, description: 'O macaco é um animal:',
+              answers: [
+                {option: 'a', description: 'Legal'},
+                {option: 'b', description: 'Chato'},
+                {option: 'c', description: 'Tanto faz'},
+                {option: 'd', description: '10'},
+                {option: 'e', description: 'Gay'}
+              ],
+              correta: 'e'},
+          ];
+        },
+        back: function() {
+          var pages = document.getElementById('teste');
+          pages.selectPrevious();
+        },
+        forward: function() {
+          var pages = document.getElementById('teste');
+          pages.selectNext();
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
