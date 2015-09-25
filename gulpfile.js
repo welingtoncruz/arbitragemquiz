@@ -43,6 +43,7 @@ var styleTask = function (stylesPath, srcs) {
     .pipe(gulp.dest('.tmp/' + stylesPath))
     .pipe($.if('*.css', $.cssmin()))
     .pipe(gulp.dest('dist/' + stylesPath))
+    .pipe(gulp.dest('mobile/www/' + stylesPath))
     .pipe($.size({title: stylesPath}));
 };
 
@@ -77,6 +78,7 @@ gulp.task('images', function () {
       interlaced: true
     })))
     .pipe(gulp.dest('dist/images'))
+    .pipe(gulp.dest('mobile/www/images'))
     .pipe($.size({title: 'images'}));
 });
 
@@ -111,11 +113,50 @@ gulp.task('copy', function () {
     .pipe($.size({title: 'copy'}));
 });
 
+// Copy All Files At The Root Level (app)
+gulp.task('copy-mobile', function () {
+  var app = gulp.src([
+    'app/*',
+    '!app/test',
+    '!app/precache.json'
+  ], {
+    dot: true
+  }).pipe(gulp.dest('mobile/www'));
+
+  var bower = gulp.src([
+    'bower_components/**/*'
+  ]).pipe(gulp.dest('mobile/www/bower_components'));
+
+  var elements = gulp.src(['app/elements/**/*.html'])
+    .pipe(gulp.dest('mobile/www/elements'));
+
+  var swBootstrap = gulp.src(['bower_components/platinum-sw/bootstrap/*.js'])
+    .pipe(gulp.dest('mobile/www/elements/bootstrap'));
+
+  var swToolbox = gulp.src(['bower_components/sw-toolbox/*.js'])
+    .pipe(gulp.dest('mobile/www/sw-toolbox'));
+
+  var vulcanized = gulp.src(['app/elements/elements.html'])
+    .pipe($.rename('elements.vulcanized.html'))
+    .pipe(gulp.dest('mobile/www/elements'));
+
+  return merge(app, bower, elements, vulcanized, swBootstrap, swToolbox)
+    .pipe($.size({title: 'copy-mobile'}));
+});
+
+
 // Copy Web Fonts To Dist
 gulp.task('fonts', function () {
   return gulp.src(['app/fonts/**'])
     .pipe(gulp.dest('dist/fonts'))
     .pipe($.size({title: 'fonts'}));
+});
+
+// Copy Web Fonts To Dist
+gulp.task('fonts-mobile', function () {
+  return gulp.src(['app/fonts/**'])
+    .pipe(gulp.dest('mobile/www/fonts'))
+    .pipe($.size({title: 'fonts-mobile'}));
 });
 
 // Scan Your HTML For Assets & Optimize Them
@@ -144,6 +185,32 @@ gulp.task('html', function () {
     .pipe($.size({title: 'html'}));
 });
 
+// Scan Your HTML For Assets & Optimize Them
+gulp.task('html-mobile', function () {
+  var assets = $.useref.assets({searchPath: ['.tmp', 'app', 'mobile/www']});
+
+  return gulp.src(['app/**/*.html', '!app/{elements,test}/**/*.html'])
+    // Replace path for vulcanized assets
+    .pipe($.if('*.html', $.replace('elements/elements.html', 'elements/elements.vulcanized.html')))
+    .pipe(assets)
+    // Concatenate And Minify JavaScript
+    .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
+    // Concatenate And Minify Styles
+    // In case you are still using useref build blocks
+    .pipe($.if('*.css', $.cssmin()))
+    .pipe(assets.restore())
+    .pipe($.useref())
+    // Minify Any HTML
+    .pipe($.if('*.html', $.minifyHtml({
+      quotes: true,
+      empty: true,
+      spare: true
+    })))
+    // Output Files
+    .pipe(gulp.dest('mobile/www'))
+    .pipe($.size({title: 'html'}));
+});
+
 // Vulcanize imports
 gulp.task('vulcanize', function () {
   var DEST_DIR = 'dist/elements';
@@ -157,6 +224,21 @@ gulp.task('vulcanize', function () {
     .pipe(gulp.dest(DEST_DIR))
     .pipe($.size({title: 'vulcanize'}));
 });
+
+// Vulcanize imports
+gulp.task('vulcanize-mobile', function () {
+  var DEST_DIR = 'mobile/www/elements';
+
+  return gulp.src('mobile/www/elements/elements.vulcanized.html')
+    .pipe($.vulcanize({
+      stripComments: true,
+      inlineCss: true,
+      inlineScripts: true
+    }))
+    .pipe(gulp.dest(DEST_DIR))
+    .pipe($.size({title: 'vulcanize'}));
+});
+
 
 // Generate a list of files that should be precached when serving from 'dist'.
 // The list will be consumed by the <platinum-sw-cache> element.
@@ -174,8 +256,27 @@ gulp.task('precache', function (callback) {
   });
 });
 
+// Generate a list of files that should be precached when serving from 'dist'.
+// The list will be consumed by the <platinum-sw-cache> element.
+gulp.task('precache-mobile', function (callback) {
+  var dir = 'mobile/www';
+
+  glob('{elements,scripts,styles}/**/*.*', {cwd: dir}, function(error, files) {
+    if (error) {
+      callback(error);
+    } else {
+      files.push('index.html', './', 'bower_components/webcomponentsjs/webcomponents-lite.min.js');
+      var filePath = path.join(dir, 'precache.json');
+      fs.writeFile(filePath, JSON.stringify(files), callback);
+    }
+  });
+});
+
 // Clean Output Directory
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
+
+// Clean Output Directory
+gulp.task('clean-mobile', del.bind(null, ['.tmp', 'mobile/www']));
 
 // Watch Files For Changes & Reload
 gulp.task('serve', ['styles', 'elements', 'images'], function () {
@@ -233,11 +334,11 @@ gulp.task('serve:dist', ['default'], function () {
 });
 
 // Build Production Files, the Default Task
-gulp.task('default', ['clean'], function (cb) {
+gulp.task('default', ['clean', 'clean-mobile'], function (cb) {
   runSequence(
-    ['copy', 'styles'],
+    ['copy', 'copy-mobile', 'styles'],
     'elements',
-    ['jshint', 'images', 'fonts', 'html'],
+    ['jshint', 'images', 'fonts', 'html', 'html-mobile', 'fonts-mobile'],
     'vulcanize',
     cb);
     // Note: add , 'precache' , after 'vulcanize', if your are going to use Service Worker

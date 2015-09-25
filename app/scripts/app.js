@@ -64,3 +64,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   };
 
 })(document);
+
+
+function populateDB(tx) {
+  tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
+}
+
+function errorCB(err) {
+  console.log('Error processing SQL: '+err.code);
+}
+
+// Transaction success callback
+//
+function successCB() {
+  console.log('Sucess processing SQL');
+}
+
+// Wait for device API libraries to load//
+document.addEventListener('deviceready', function () {
+  var db = document.openDatabase('test', '1.0', 'Test DB', 1000000);
+
+  db.transaction(populateDB, errorCB, successCB);
+
+});
