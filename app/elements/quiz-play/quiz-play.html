@@ -1,5 +1,5 @@
 <dom-module id="quiz-play">
-  <style>
+  <style is="custom-style">
     :host {
       height: 100%;
     }
@@ -18,12 +18,18 @@
     }
 
     paper-header-panel {
-      height: 350px;
+      height: 500px;
       background-color: #FFFFFF;
     }
 
     paper-toolbar {
-      background-color: #67cdcc;
+      background-color: var(--accent-color);
+      font-size: 14px;
+      height: 110px;
+    }
+
+    paper-toolbar ::shadow #topBar {
+      height: 100px;
     }
 
     paper-radio-button::shadow #ink {
@@ -38,34 +44,35 @@
       h1.paper-font-display1 {
         font-size: 24px;
       }
-    }#eee
+    }
   </style>
   <template>
-    <iron-pages id="questions" selected="0">
-      <template is="dom-repeat" items="{{questions}}" as="ask">
-        <div>
-          <paper-header-panel >
-            <paper-toolbar >
-              <div class="fluxo">
-                <div style="width: 98%;">
-                  <b>{{ask.number}}</b> - <b>{{ask.description}}</b>
+      <iron-pages id="questions" selected="0">
+        <template is="dom-repeat" items="{{questions}}" as="ask">
+          <div>
+            <paper-header-panel >
+              <paper-toolbar >
+                <div class="fluxo">
+                  <div style="width: 98%;">
+                    <b>{{ask.number}}</b> - <b>{{ask.description}}</b>
+                  </div>
+                  <div style="font-size: 26px;">
+                    <b>{{ask.number}}</b>/<b>{{questions.length}}</b>
+                  </div>
                 </div>
-                <div>
-                  <b>{{ask.number}}</b>/<b>{{questions.length}}</b>
-                </div>
+              </paper-toolbar>
+              <div>
+                <paper-radio-group>
+                  <template is="dom-repeat" items="{{ask.answers}}">
+                    <paper-radio-button name="{{ask.number + item.option}}"><b>{{item.option}}</b>) <span>{{item.description}}</span></paper-radio-button>
+                  </template>
+                </paper-radio-group>
               </div>
-            </paper-toolbar>
-            <div>
-              <paper-radio-group>
-                <template is="dom-repeat" items="{{ask.answers}}">
-                  <paper-radio-button name="{{ask.number + item.option}}"><b>{{item.option}}</b>) <span>{{item.description}}</span></paper-radio-button>
-                </template>
-              </paper-radio-group>
-            </div>
-          </paper-header-panel>
-        </div>
-      </template>
-    </iron-pages>
+            </paper-header-panel>
+          </div>
+        </template>
+      </iron-pages>
+
     <div class="fluxo">
       <div style="width: 85%">
         <paper-icon-button icon="arrow-back" alt="arrow-back" class="orange" on-tap="back"></paper-icon-button>
@@ -84,13 +91,14 @@
         questions: [],
         ready: function() {
           this.questions = [
-            {number: 1, description: 'Qual a cor dos cartões?',
+            {number: 1, description: 'Qual a cor dos cartões ual a cor dos cartões ual a cor dos cartões ual ' +
+            'a cor dos cartões ual a cor dos cartões ual a cor dos cartões ual a cor dos cartões ual a cor dos cartões ual a  cartões ual a cor dos cartões ual a cor dos cartões ual a ' +
+            ' cor dos cartões ual a cor dos cartões ?',
               answers: [
                 {option: 'a', description: 'Vermelho e Laranja'},
                 {option: 'b', description: 'Azul e Amarelo'},
                 {option: 'c', description: 'Verde e Roxo'},
-                {option: 'd', description: 'Vermelho e Amarelo'},
-                {option: 'e', description: 'Branco e Preto'}
+                {option: 'd', description: 'Vermelho e Amarelo'}
               ],
               correta: 'd'},
             {number: 2, description: 'Qual a cor da roupa dos arbitros?',
@@ -98,19 +106,17 @@
                 {option: 'a', description: 'Azul e Amarelo'},
                 {option: 'b', description: 'Vermelho e Laranja'},
                 {option: 'c', description: 'Vermelho e Amarelo'},
-                {option: 'd', description: 'Verde e Roxo'},
-                {option: 'e', description: 'Branco e Preto'}
+                {option: 'd', description: 'Branco e Preto'}
               ],
-              correta: 'e'},
+              correta: 'd'},
             {number: 3, description: 'O macaco é um animal:',
               answers: [
                 {option: 'a', description: 'Legal'},
                 {option: 'b', description: 'Chato'},
                 {option: 'c', description: 'Tanto faz'},
-                {option: 'd', description: '10'},
-                {option: 'e', description: 'Gay'}
+                {option: 'd', description: 'Gay'}
               ],
-              correta: 'e'},
+              correta: 'd'},
           ];
         },
         back: function() {
@@ -124,7 +130,6 @@
         mudou: function(e) {
           console.log(e.target);
         }
-
       });
     })();
   </script>

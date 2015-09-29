@@ -55,7 +55,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- endreplace-->
 </head>
 
-<body unresolved class="fullbleed layout vertical">
+<body class="fullbleed layout vertical">
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
@@ -73,11 +73,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <a data-route="home" href="/">
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
-          </a>
-
-          <a data-route="quiz" href="/quiz">
-            <iron-icon icon="info"></iron-icon>
-            <span>Quiz</span>
           </a>
 
         </paper-menu>
@@ -103,17 +98,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
 
             <section data-route="home">
-              <paper-material elevation="1">
+              <paper-material elevation="0">
                 <inicial-quiz></inicial-quiz>
               </paper-material>
             </section>
 
             <section data-route="quiz">
-              <paper-material elevation="1">
+              <paper-material elevation="0">
                 <quiz-play></quiz-play>
               </paper-material>
             </section>
-
 
           </iron-pages>
         </div>
