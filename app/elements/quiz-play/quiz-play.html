@@ -35,15 +35,10 @@
       height: 100px;
     }
 
-    @media (max-width: 600px) {
-      h1.paper-font-display1 {
-        font-size: 24px;
-      }
-    }
-
     paper-toolbar.title .app-name {
-      font-size: 25px;
+      font-size: 12px;
       padding-bottom: 0;
+      width: 20%;
     }
 
     #mainToolbar .middle-container  {
@@ -56,17 +51,50 @@
 
     /* Height of the scroll area */
     .content {
+      margin-top: 2px auto;
       height: 100%;
     }
+
+    .description {
+      width: 98%;
+      margin: 10px auto;
+    }
+
+    .countdown {
+      width: 20%;
+      background-color: #212121;
+      margin: auto;
+      height: 50px;
+      width: 80px;
+    }
+
+    .count {
+      width: 78%;
+      text-align: center;
+      margin: auto;
+      font-size: 30px;
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    .icon-quiz {
+      margin-top: 3px;
+      width: 50px;
+      height: 50px;
+      margin-left: -15px;
+    }
+
   </style>
   <template>
-    <paper-drawer-panel id="paperDrawerPanel">
+    <paper-drawer-panel id="paperaDrawerPanel">
       <paper-scroll-header-panel main condenses keep-condensed-header>
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar" class="title">
           <!-- Application name -->
-          <div class="middle middle-container center horizontal layout">
-            <div class="app-name">Arbitragem Quiz</div>
+          <div class="horizontal layout" style="width: 100%; position: absolute">
+            <div class="app-name"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+            <div class="count"><b>{{questionNow}}</b>/<b>{{questions.length}}</b></div>
+            <div class="countdown"><flip-clock display-mode="countdown" hideHours start-from="30" auto></flip-clock></div>
           </div>
         </paper-toolbar>
 
@@ -75,14 +103,14 @@
           <iron-pages id="questions" selected="0">
             <template is="dom-repeat" items="{{questions}}" as="ask">
               <div>
-                <paper-header-panel >
-                  <paper-toolbar class="question">
+                <paper-header-panel main condenses keep-condensed-header>
+                  <div class="question">
                     <div class="fluxo">
-                      <div style="width: 98%;">
-                        <b>{{ask.number}}</b> - <b>{{ask.description}}</b>
+                      <div class="description">
+                        <span>{{ask.description}}</span>
                       </div>
                     </div>
-                  </paper-toolbar>
+                  </div>
                   <div>
                     <paper-radio-group>
                       <template is="dom-repeat" items="{{ask.answers}}">
@@ -92,8 +120,8 @@
                   </div>
                 </paper-header-panel>
                 <div style="font-size: 26px;">
-                  <flip-clock id="flip-clock" display-mode="countdown" hideHours start-from="30" auto></flip-clock>
-                  <b>{{ask.number}}</b>/<b>{{questions.length}}</b>
+
+                  <b>{{ask.number}}</b>
                 </div>
               </div>
             </template>
@@ -117,6 +145,11 @@
       Polymer({
         is: 'quiz-play',
         questions: [],
+        questionNow: {
+          value: 1,
+          type: Number
+        },
+        
         ready: function() {
           this.questions = [
             {number: 1, description: 'Qual a cor dos cartões ual a cor dos cartões ual a cor dos cartões ual ' +
@@ -151,10 +184,12 @@
         back: function() {
           var pages = document.getElementById('questions');
           pages.selectPrevious();
+          questionNow -= 1;
         },
         forward: function() {
           var pages = document.getElementById('questions');
           pages.selectNext();
+          questionNow += 1;
         },
         mudou: function(e) {
           console.log(e.target);
