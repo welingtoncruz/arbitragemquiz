@@ -8,6 +8,8 @@
     .header {
       padding-bottom: 10px;
       margin: 5px auto;
+      display: flex;
+      flex-wrap: wrap;
     }
 
     .level {
@@ -36,26 +38,152 @@
       width: 100px;
     }
 
+    .icon-quiz {
+      margin-top: 20px;
+      width: 25px;
+      height: 25px;
+    }
+
+    paper-icon-button[icon=menu] {
+      margin-left: -30px;
+    }
+
+    #drawerToolbar {
+      color: var(--secondary-text-color);
+      background-color: var(--drawer-menu-color);
+      border-bottom: var(--drawer-toolbar-border-color);
+    }
+
+    paper-material {
+      height: 100%;
+      padding: 16px 0 16px 0;
+      width: calc(98.66% - 16px);
+      margin: 16px auto;
+      background: white;
+    }
+
+    paper-menu iron-icon {
+      margin-right: 33px;
+      opacity: 0.54;
+    }
+
+    .paper-menu > .iron-selected {
+      color: var(--default-primary-color);
+    }
+
+    paper-menu a {
+      text-decoration: none;
+      color: var(--menu-link-color);
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-direction: row;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      font-family: 'Roboto', 'Noto', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 24px;
+      min-height: 48px;
+      padding: 0 16px;
+    }
+
+    paper-toolbar.title .app-name {
+      font-size: 25px;
+      padding-bottom: 0;
+    }
+
+    #mainToolbar .middle-container  {
+      margin-left: 12px;
+    }
+
+    #mainToolbar .bottom {
+      margin-left: 12px;
+    }
+
+    /* Height of the scroll area */
+    .content {
+      height: 100%;
+    }
+
+
   </style>
   <template>
-    <paper-material elevation="0">
-    <div class="header">
-      <h1> Desafio </h1>
-      <span class="paper-font-body2">Composto de 10 questões oficiais do programa de avaliação para arbitragem da Fifa</span>
-    </div>
-    <div class="level">
-      <h3 class="paper-font-body2">Escolha o nível do teste:</h3>
+    <paper-drawer-panel id="paperDrawerPanel">
+      <!-- Drawer Scroll Header Panel -->
+      <paper-scroll-header-panel drawer fixed>
+        <!-- Drawer Toolbar -->
+        <paper-toolbar id="drawerToolbar">
+          <span class="paper-font-title">Menu</span>
+        </paper-toolbar>
 
-      <paper-radio-group value="{{level}}" selected="facil">
-        <paper-radio-button name="facil">Fácil</paper-radio-button>
-        <paper-radio-button name="dificil">Dificil</paper-radio-button>
-        <paper-radio-button name="aleatório">Aleatório</paper-radio-button>
-      </paper-radio-group>
-    </div>
-    <div class="button" on-tap="{{loco()}}">
-        <paper-button tabindex="0" raised>Iniciar</paper-button>
-    </div>
-    </paper-material>
+        <!-- Drawer Content -->
+        <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
+          <a data-route="home" href="/">
+            <iron-icon icon="home"></iron-icon>
+            <span>Home</span>
+          </a>
+
+        </paper-menu>
+      </paper-scroll-header-panel>
+
+      <!-- Main Area -->
+      <paper-scroll-header-panel main condenses keep-condensed-header>
+
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar" class="title">
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+          <span class="flex"></span>
+
+          <!-- Application name -->
+          <div class="middle middle-container center horizontal layout">
+            <div class="app-name">Arbitragem Quiz</div>
+          </div>
+
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <div class="content">
+          <paper-material elevation="0">
+            <div class="header">
+              <h1> Desafio </h1>
+              <iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon>
+            </div>
+            <span class="paper-font-body2">Composto de 10 questões oficiais do programa de avaliação para arbitragem da Fifa</span>
+            <div class="level">
+              <h3 class="paper-font-body2">Escolha o nível do teste:</h3>
+
+              <paper-radio-group value="{{level}}" selected="facil">
+                <paper-radio-button name="facil">Fácil</paper-radio-button>
+                <paper-radio-button name="dificil">Dificil</paper-radio-button>
+                <paper-radio-button name="aleatório">Aleatório</paper-radio-button>
+              </paper-radio-group>
+            </div>
+            <div class="button">
+                <paper-button attr-for-selected="data-route" on-tap="initialize" raised>Iniciar</paper-button>
+            </div>
+
+            <facebook-login
+              appID="743333545708443"
+              logout-link graph-url="me?fields=name,email,birthday"
+              scope="public_profile email user_birthday"
+              graph-response="{{resp}}"
+              auto-api-call></facebook-login>
+
+            <div style="margin-top: 20px">
+              <span>[[resp.name]]</span>
+              <div>[[resp.email]]</div>
+              <div>[[resp.birthday]]</div>
+            </div>
+          </paper-material>
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
   </template>
 
   <script>
@@ -63,7 +191,7 @@
       Polymer({
         is: 'inicial-quiz',
 
-        loco: function() {
+        initialize: function() {
           app.route = 'quiz';
         }
 

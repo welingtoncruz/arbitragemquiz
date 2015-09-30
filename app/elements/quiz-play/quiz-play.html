@@ -1,9 +1,5 @@
 <dom-module id="quiz-play">
   <style is="custom-style">
-    :host {
-      height: 100%;
-    }
-
     paper-radio-button {
       display: block;
     }
@@ -22,22 +18,21 @@
       background-color: #FFFFFF;
     }
 
-    paper-toolbar {
-      background-color: var(--accent-color);
+    #drawerToolbar {
+      color: var(--secondary-text-color);
+      background-color: var(--drawer-menu-color);
+      border-bottom: var(--drawer-toolbar-border-color);
+    }
+
+    .question {
       font-size: 14px;
       height: 110px;
+      background-color: #F5F5F5;
+      color: #757575;
     }
 
     paper-toolbar ::shadow #topBar {
       height: 100px;
-    }
-
-    paper-radio-button::shadow #ink {
-      color: #FFFFFF;
-    }
-
-    paper-radio-button::shadow #ink[checked] {
-      color: #FFFFFF;
     }
 
     @media (max-width: 600px) {
@@ -45,43 +40,76 @@
         font-size: 24px;
       }
     }
+
+    paper-toolbar.title .app-name {
+      font-size: 25px;
+      padding-bottom: 0;
+    }
+
+    #mainToolbar .middle-container  {
+      margin-left: 0px;
+    }
+
+    #mainToolbar .bottom {
+      margin-left: 12px;
+    }
+
+    /* Height of the scroll area */
+    .content {
+      height: 100%;
+    }
   </style>
   <template>
-      <iron-pages id="questions" selected="0">
-        <template is="dom-repeat" items="{{questions}}" as="ask">
-          <div>
-            <paper-header-panel >
-              <paper-toolbar >
-                <div class="fluxo">
-                  <div style="width: 98%;">
-                    <b>{{ask.number}}</b> - <b>{{ask.description}}</b>
-                  </div>
-                  <div style="font-size: 26px;">
-                    <b>{{ask.number}}</b>/<b>{{questions.length}}</b>
-                  </div>
-                </div>
-              </paper-toolbar>
-              <div>
-                <paper-radio-group>
-                  <template is="dom-repeat" items="{{ask.answers}}">
-                    <paper-radio-button name="{{ask.number + item.option}}"><b>{{item.option}}</b>) <span>{{item.description}}</span></paper-radio-button>
-                  </template>
-                </paper-radio-group>
-              </div>
-            </paper-header-panel>
+    <paper-drawer-panel id="paperDrawerPanel">
+      <paper-scroll-header-panel main condenses keep-condensed-header>
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar" class="title">
+          <!-- Application name -->
+          <div class="middle middle-container center horizontal layout">
+            <div class="app-name">Arbitragem Quiz</div>
           </div>
-        </template>
-      </iron-pages>
+        </paper-toolbar>
 
-    <div class="fluxo">
-      <div style="width: 85%">
-        <paper-icon-button icon="arrow-back" alt="arrow-back" class="orange" on-tap="back"></paper-icon-button>
-      </div>
-      <div style="width: 15%">
-        <paper-icon-button icon="arrow-forward" alt="arrow-forward" class="green" on-tap="forward"></paper-icon-button>
-      </div>
-    </div>
+        <!-- Main Content -->
+        <div class="content">
+          <iron-pages id="questions" selected="0">
+            <template is="dom-repeat" items="{{questions}}" as="ask">
+              <div>
+                <paper-header-panel >
+                  <paper-toolbar class="question">
+                    <div class="fluxo">
+                      <div style="width: 98%;">
+                        <b>{{ask.number}}</b> - <b>{{ask.description}}</b>
+                      </div>
+                    </div>
+                  </paper-toolbar>
+                  <div>
+                    <paper-radio-group>
+                      <template is="dom-repeat" items="{{ask.answers}}">
+                        <paper-radio-button name="{{ask.number + item.option}}"><b>{{item.option}}</b>) <span>{{item.description}}</span></paper-radio-button>
+                      </template>
+                    </paper-radio-group>
+                  </div>
+                </paper-header-panel>
+                <div style="font-size: 26px;">
+                  <flip-clock id="flip-clock" display-mode="countdown" hideHours start-from="30" auto></flip-clock>
+                  <b>{{ask.number}}</b>/<b>{{questions.length}}</b>
+                </div>
+              </div>
+            </template>
+          </iron-pages>
 
+          <div class="fluxo">
+            <div style="width: 85%">
+              <paper-icon-button icon="arrow-back" alt="arrow-back" class="orange" on-tap="back"></paper-icon-button>
+            </div>
+            <div style="width: 15%">
+              <paper-icon-button icon="arrow-forward" alt="arrow-forward" class="green" on-tap="forward"></paper-icon-button>
+            </div>
+          </div>
+        </div>
+      </paper-scroll-header-panel>
+    </paper-drawer-panel>
   </template>
 
   <script>
@@ -119,6 +147,7 @@
               correta: 'd'},
           ];
         },
+
         back: function() {
           var pages = document.getElementById('questions');
           pages.selectPrevious();
