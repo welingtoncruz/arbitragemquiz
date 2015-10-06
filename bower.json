@@ -2,8 +2,6 @@
   "name": "polymer-starter-kit",
   "private": true,
   "dependencies": {
-    "facebook-login": "*",
-    "flip-clock": "~1.2.2",
     "iron-elements": "PolymerElements/iron-elements#1.0.4",
     "neon-elements": "PolymerElements/neon-elements#1.0.0",
     "page": "visionmedia/page.js#~1.6.3",

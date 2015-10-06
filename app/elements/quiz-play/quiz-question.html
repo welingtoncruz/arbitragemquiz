@@ -69,13 +69,15 @@
         },
 
         ready: function() {
+
+          var seed = (Math.random() + 1) * 1111111;
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           var whereQuestion = 'where PERGUNTA_ID = '+ this.question.ID;
-          var select = 'SELECT * FROM ALTERNATIVA ' +whereQuestion+';';
+          var select = 'SELECT * FROM ALTERNATIVA ' +whereQuestion+' ORDER BY ROWID * ? % 10000;';
           db.transaction(
             $.proxy(function (transaction) {
               transaction.executeSql(select,
-                [],
+                [seed],
                 $.proxy(this.dataHandler, this),
                 $.proxy(this.errorHandler, this));
             }, this)

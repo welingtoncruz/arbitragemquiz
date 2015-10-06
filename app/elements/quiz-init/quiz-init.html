@@ -191,16 +191,13 @@
 
         getQuestions: function() {
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
-          seed = (Math.random() + 1) * 1111111;
-          whereLevel = this.level == "" ? "" : 'WHERE LEVEL ="' + this.level + '"';
-          select = 'SELECT * FROM PERGUNTA ' +whereLevel+' ORDER BY ROWID * ? % 10000 LIMIT 20;';
+          var seed = (Math.random() + 1) * 1111111;
+          var whereLevel = this.level === "" ? "" : 'WHERE LEVEL ="' + this.level + '"';
+          var select = 'SELECT * FROM PERGUNTA ' +whereLevel+' ORDER BY ROWID * ? % 10000 LIMIT 20;';
 
           db.transaction(
             $.proxy(function (transaction) {
-              transaction.executeSql(select,
-                [seed]
-                , $.proxy(this.dataHandler, this)
-                , $.proxy(this.errorHandler), this);
+              transaction.executeSql(select, [seed], $.proxy(this.dataHandler, this), $.proxy(this.errorHandler), this);
             },this)
           );
         },
@@ -217,7 +214,7 @@
           var questions = [];
           for (var i=0; i<results.rows.length; i++) {
             var question = results.rows.item(i);
-            questions.push(question)
+            questions.push(question);
           }
           app.route = 'quiz';
           Polymer.dom(document.body).appendChild(quizPlay);
