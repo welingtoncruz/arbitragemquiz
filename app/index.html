@@ -48,6 +48,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   <!-- build:js bower_components/webcomponentsjs/webcomponents-lite.min.js -->
   <script src="bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+  <script src="bower_components/jquery-2.1.0.min/index.js"></script>
+
   <!-- endbuild -->
 
   <!-- will be replaced with elements/elements.vulcanized.html -->
@@ -60,12 +62,15 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template is="dom-bind" id="app">
 
     <iron-pages attr-for-selected="data-route" selected="{{route}}">
-        <section data-route="home">
-            <inicial-quiz></inicial-quiz>
-        </section>
+      <section data-route="home">
+          <inicial-quiz></inicial-quiz>
+      </section>
 
       <section data-route="quiz">
-        <quiz-play></quiz-play>
+      </section>
+
+      <section data-route="finish">
+        <quiz-finish></quiz-finish>
       </section>
 
     </iron-pages>

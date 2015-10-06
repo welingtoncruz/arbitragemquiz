@@ -1,0 +1,94 @@
+<dom-module id="quiz-finish">
+  <style>
+    .pages {
+      display: flex;
+    }
+
+    #mainToolbar .middle-container  {
+      margin-left: 0px;
+    }
+
+    #mainToolbar .bottom {
+      margin-left: 12px;
+      height: 200px;
+    }
+
+    /* Height of the scroll area */
+    .content {
+      margin-top: 2px auto;
+      height: 100%;
+      padding: 75px;
+    }
+
+    .icon-quiz {
+      width: 50px;
+      height: 50px;
+    }
+
+    .app-icon {
+      margin-left: 5px;
+      width: 50px;
+      height:50px;
+    }
+
+    .resultado {
+      width: 100%;
+      margin: auto;
+      font-size: 25px;
+      padding: 5px;
+    }
+
+    .score {
+      margin: auto;
+      font-size: 25px;
+      text-align: center;
+    }
+
+    .value {
+      font-size: 120px;
+    }
+
+    paper-button {
+      display: block;
+      margin-bottom: 24px;
+      color: #FFFFFF;
+      background-color: var(--default-primary-color);
+      width: 100%;
+    }
+
+
+  </style>
+  <template>
+        <paper-toolbar id="mainToolbar" class="title">
+          <!-- Application name -->
+          <div class="horizontal layout">
+            <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+            <div class="resultado">Resultado</div>
+          </div>
+        </paper-toolbar>
+
+        <!-- Main Content -->
+          <paper-material class="content" elevation="0">
+            <div class="score">Score</div>
+            <div class="score value">83%</div>
+          </paper-material>
+
+          <div class="horizontal layout">
+            <paper-button attr-for-selected="data-route" on-tap="tryAgain" raised>Tentar novamente</paper-button>
+            <paper-button attr-for-selected="data-route" on-tap="tryAgain" raised>Scores</paper-button>
+          </div>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'quiz-finish',
+
+        tryAgain: function() {
+          app.route = 'home';
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

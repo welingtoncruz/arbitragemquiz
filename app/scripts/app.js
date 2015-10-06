@@ -27,8 +27,29 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   // See https://github.com/Polymer/polymer/issues/1381
   window.addEventListener('WebComponentsReady', function() {
-    // imports are loaded and elements have been registered
+    $.get('../database/quizFifaApp.sql', function(response) {
+      var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+      processQuery(db, 2, response.split(';\n'), 'quizFifaApp');
+    });
   });
+
+  function processQuery(db, i, queries, dbname) {
+    if(i < queries.length -1) {
+      if(!queries[i+1].match(/(INSERT|CREATE|DROP|PRAGMA|BEGIN|COMMIT)/)) {
+        queries[i+1] = queries[i]+ ';\n' + queries[i+1];
+        return processQuery(db, i+1, queries, dbname);
+      }
+      db.transaction( function (query){
+        query.executeSql(queries[i]+';', [], function(tx, result) {
+          processQuery(db, i +1, queries,dbname);
+        });
+      }, function(err) {
+        processQuery(db, i +1, queries, dbname);
+      });
+    } else {
+      console.log("Done importing!");
+    }
+  }
 
   // Main area's paper-scroll-header-panel custom condensing transformation of
   // the appName in the middle-container and the bottom title in the bottom-container.
@@ -64,26 +85,3 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   };
 
 })(document);
-
-
-function populateDB(tx) {
-  tx.executeSql('CREATE TABLE IF NOT EXISTS DEMO (id unique, data)');
-}
-
-function errorCB(err) {
-  console.log('Error processing SQL: '+err.code);
-}
-
-// Transaction success callback
-//
-function successCB() {
-  console.log('Sucess processing SQL');
-}
-
-// Wait for device API libraries to load//
-document.addEventListener('deviceready', function () {
-  var db = document.openDatabase('test', '1.0', 'Test DB', 1000000);
-
-  db.transaction(populateDB, errorCB, successCB);
-
-});

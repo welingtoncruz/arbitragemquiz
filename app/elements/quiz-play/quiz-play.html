@@ -1,27 +1,7 @@
 <dom-module id="quiz-play">
-  <style is="custom-style">
-    paper-radio-button {
-      display: block;
-    }
-
-    .fluxo {
-      display: flex;
-      width: 100%;
-    }
-
+  <style>
     .pages {
       display: flex;
-    }
-
-    paper-header-panel {
-      height: 500px;
-      background-color: #FFFFFF;
-    }
-
-    #drawerToolbar {
-      color: var(--secondary-text-color);
-      background-color: var(--drawer-menu-color);
-      border-bottom: var(--drawer-toolbar-border-color);
     }
 
     .question {
@@ -31,14 +11,22 @@
       color: #757575;
     }
 
-    paper-toolbar ::shadow #topBar {
-      height: 100px;
+    .app-icon {
+      margin-left: 5px;
+      width: 10%;
     }
 
-    paper-toolbar.title .app-name {
-      font-size: 12px;
-      padding-bottom: 0;
-      width: 20%;
+    .countdown {
+      margin-right: 40px;
+    }
+
+    .count {
+      width: 78%;
+      text-align: center;
+      margin: auto;
+      font-size: 30px;
+      border-radius: 50px;
+      overflow: hidden;
     }
 
     #mainToolbar .middle-container  {
@@ -60,70 +48,58 @@
       margin: 10px auto;
     }
 
-    .countdown {
-      width: 20%;
-      background-color: #212121;
-      margin: auto;
-      height: 50px;
-      width: 80px;
-    }
-
-    .count {
-      width: 78%;
-      text-align: center;
-      margin: auto;
-      font-size: 30px;
-      border-radius: 50px;
-      overflow: hidden;
-    }
-
     .icon-quiz {
       margin-top: 3px;
       width: 50px;
       height: 50px;
-      margin-left: -15px;
     }
+
+    .bola-futebol {
+      background-image: url("../../images/bola-futebol.png");
+      height: 55px;
+      width: 55px;
+      background-repeat:no-repeat;
+      background-size:contain;
+    }
+
+    flip-clock {
+      position: absolute;
+      margin-top: 18px;
+      margin-left: 5px;
+    }
+
+    .fluxo {
+      display: flex;
+      width: 100%;
+    }
+
+    paper-button {
+      display: block;
+      margin-bottom: 24px;
+      color: #FFFFFF;
+      background-color: var(--default-primary-color);
+    }
+
 
   </style>
   <template>
-    <paper-drawer-panel id="paperaDrawerPanel">
-      <paper-scroll-header-panel main condenses keep-condensed-header>
-        <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar" class="title">
           <!-- Application name -->
           <div class="horizontal layout" style="width: 100%; position: absolute">
-            <div class="app-name"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
-            <div class="count"><b>{{questionNow}}</b>/<b>{{questions.length}}</b></div>
-            <div class="countdown"><flip-clock display-mode="countdown" hideHours start-from="30" auto></flip-clock></div>
+            <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+            <div class="count"><b>{{questionNumber}}</b>/<b>{{questions.length}}</b></div>
+            <div class="countdown">
+              <div class="bola-futebol">
+              </div>
+            </div>
           </div>
         </paper-toolbar>
 
         <!-- Main Content -->
         <div class="content">
-          <iron-pages id="questions" selected="0">
-            <template is="dom-repeat" items="{{questions}}" as="ask">
-              <div>
-                <paper-header-panel main condenses keep-condensed-header>
-                  <div class="question">
-                    <div class="fluxo">
-                      <div class="description">
-                        <span>{{ask.description}}</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <paper-radio-group>
-                      <template is="dom-repeat" items="{{ask.answers}}">
-                        <paper-radio-button name="{{ask.number + item.option}}"><b>{{item.option}}</b>) <span>{{item.description}}</span></paper-radio-button>
-                      </template>
-                    </paper-radio-group>
-                  </div>
-                </paper-header-panel>
-                <div style="font-size: 26px;">
-
-                  <b>{{ask.number}}</b>
-                </div>
-              </div>
+          <iron-pages id="page-question" selected="0">
+            <template is="dom-repeat" items="{{questions}}">
+              <quiz-question question="{{item}}"></quiz-question>
             </template>
           </iron-pages>
 
@@ -131,68 +107,52 @@
             <div style="width: 85%">
               <paper-icon-button icon="arrow-back" alt="arrow-back" class="orange" on-tap="back"></paper-icon-button>
             </div>
-            <div style="width: 15%">
+            <div>
               <paper-icon-button icon="arrow-forward" alt="arrow-forward" class="green" on-tap="forward"></paper-icon-button>
             </div>
           </div>
+
+          <paper-button attr-for-selected="data-route" on-tap="finish" raised>Finalizar</paper-button>
+
         </div>
-      </paper-scroll-header-panel>
-    </paper-drawer-panel>
   </template>
 
   <script>
     (function() {
-      Polymer({
+      QuizPlay = Polymer({
         is: 'quiz-play',
-        questions: [],
-        questionNow: {
-          value: 1,
-          type: Number
-        },
-        
-        ready: function() {
-          this.questions = [
-            {number: 1, description: 'Qual a cor dos cartões ual a cor dos cartões ual a cor dos cartões ual ' +
-            'a cor dos cartões ual a cor dos cartões ual a cor dos cartões ual a cor dos cartões ual a cor dos cartões ual a  cartões ual a cor dos cartões ual a cor dos cartões ual a ' +
-            ' cor dos cartões ual a cor dos cartões ?',
-              answers: [
-                {option: 'a', description: 'Vermelho e Laranja'},
-                {option: 'b', description: 'Azul e Amarelo'},
-                {option: 'c', description: 'Verde e Roxo'},
-                {option: 'd', description: 'Vermelho e Amarelo'}
-              ],
-              correta: 'd'},
-            {number: 2, description: 'Qual a cor da roupa dos arbitros?',
-              answers: [
-                {option: 'a', description: 'Azul e Amarelo'},
-                {option: 'b', description: 'Vermelho e Laranja'},
-                {option: 'c', description: 'Vermelho e Amarelo'},
-                {option: 'd', description: 'Branco e Preto'}
-              ],
-              correta: 'd'},
-            {number: 3, description: 'O macaco é um animal:',
-              answers: [
-                {option: 'a', description: 'Legal'},
-                {option: 'b', description: 'Chato'},
-                {option: 'c', description: 'Tanto faz'},
-                {option: 'd', description: 'Gay'}
-              ],
-              correta: 'd'},
-          ];
+
+        properties : {
+          questions: {
+            type: Array,
+            value: function() {
+              return [];
+            }
+          },
+          questionNumber: {
+            type: Number,
+            value: 1
+          }
         },
 
         back: function() {
-          var pages = document.getElementById('questions');
+          var pages = document.getElementById('page-question');
           pages.selectPrevious();
-          questionNow -= 1;
+          this.questionNumber = (this.questionNumber - 1 < 1) ? this.questions.length : this.questionNumber - 1;
         },
+
         forward: function() {
-          var pages = document.getElementById('questions');
+          var pages = document.getElementById('page-question');
           pages.selectNext();
-          questionNow += 1;
+          this.questionNumber = (this.questionNumber + 1 > this.questions.length) ? 1 : this.questionNumber + 1;
         },
+
         mudou: function(e) {
           console.log(e.target);
+        },
+
+        finish: function() {
+          app.route = 'finish';
         }
       });
     })();

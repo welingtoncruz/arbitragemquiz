@@ -1,0 +1,104 @@
+<dom-module id="quiz-question">
+  <style is="custom-style">
+    paper-radio-button {
+      display: block;
+      margin-left: 10px;
+    }
+
+    paper-header-panel {
+      height: 500px;
+      background-color: #FFFFFF;
+    }
+
+    .question {
+      font-size: 15px;
+      height: 100%;
+      background-color: #F5F5F5;
+      color: #333;
+      padding: 10px;
+    }
+
+    .description {
+      font-size: 18px;
+      width: 100%;
+    }
+
+    .count {
+      width: 78%;
+      text-align: center;
+      margin: auto;
+      font-size: 30px;
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+  </style>
+  <template>
+    <div>
+      <paper-header-panel main condenses keep-condensed-header>
+        <div class="question">
+          <div class="description">
+            <span style="margin: auto;">{{question.DESCRICAO}}</span>
+          </div>
+        </div>
+        <div>
+          <paper-radio-group>
+            <template is="dom-repeat" items="{{alternatives}}">
+              <paper-radio-button name="{{item.ID}}">{{item.DESCRICAO}}</paper-radio-button>
+            </template>
+          </paper-radio-group>
+        </div>
+      </paper-header-panel>
+    </div>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'quiz-question',
+        properties: {
+          question: {
+            type: Object
+          },
+          alternatives: {
+            type: Array,
+            value: function() {
+              return [];
+            }
+          }
+        },
+
+        ready: function() {
+          var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+          var whereQuestion = 'where PERGUNTA_ID = '+ this.question.ID;
+          var select = 'SELECT * FROM ALTERNATIVA ' +whereQuestion+';';
+          db.transaction(
+            $.proxy(function (transaction) {
+              transaction.executeSql(select,
+                [],
+                $.proxy(this.dataHandler, this),
+                $.proxy(this.errorHandler, this));
+            }, this)
+          );
+        },
+
+        dataHandler: function (tx, results) {
+          var alternatives = [];
+          for (var i=0; i<results.rows.length; i++) {
+            var alternativa = results.rows.item(i);
+            alternatives.push(alternativa);
+          }
+          this.alternatives = alternatives;
+        },
+
+        errorHandler: function (transaction, error) {
+          console.log('Oops.  Error was '+error.message+' (Code '+error.code+')');
+          var we_think_this_error_is_fatal = true;
+          if (we_think_this_error_is_fatal) { return true; }
+          return false;
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
