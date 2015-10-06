@@ -25,6 +25,8 @@
     "md5": false,
     "define": false,
     "unescape": false,
-    "MY_LIB": false
+    "MY_LIB": false,
+    "QuizPlay": true,
+    "QuizFinish": true
   }
 }
