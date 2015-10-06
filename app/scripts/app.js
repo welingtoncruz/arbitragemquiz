@@ -27,11 +27,34 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
   // See https://github.com/Polymer/polymer/issues/1381
   window.addEventListener('WebComponentsReady', function() {
-    $.get('../database/quizFifaApp.sql', function(response) {
-      var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
-      processQuery(db, 2, response.split(';\n'), 'quizFifaApp');
-    });
+    var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+    db.transaction( function (tx){
+        tx.executeSql('CREATE TABLE IF NOT EXISTS CONFIGURACAO (NOVA_INSTALACAO CHAR (1, 1) NOT NULL);',
+          [],
+          tableConfigOk(db),
+          errorHandler)
+      });
   });
+
+  function tableConfigOk(db) {
+    db.transaction( function (tx){
+      tx.executeSql('SELECT NOVA_INSTALACAO FROM CONFIGURACAO;',
+        [],
+        verificaBanco,
+        errorHandler)
+    });
+  }
+
+  function verificaBanco(tx, results) {
+    if (results.rows.length == null) {
+      var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+      $.get('../database/quizFifaApp.sql', function (response) {
+        processQuery(db, 2, response.split(';\n'), 'quizFifaApp');
+      });
+    } else {
+      console.log('Banco já instalado');
+    }
+  }
 
   function processQuery(db, i, queries, dbname) {
     if(i < queries.length -1) {
@@ -51,10 +74,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   }
 
-  // Main area's paper-scroll-header-panel custom condensing transformation of
-  // the appName in the middle-container and the bottom title in the bottom-container.
-  // The appName is moved to top and shrunk on condensing. The bottom sub title
-  // is shrunk to nothing on condensing.
+  function errorHandler(transaction, error) {
+    console.log('Oops.  Error was '+error.message+' (Code '+error.code+')');
+    var we_think_this_error_is_fatal = true;
+    if (we_think_this_error_is_fatal) { return true; }
+    return false;
+  };
+
   addEventListener('paper-header-transform', function(e) {
     var appName = document.querySelector('.app-name');
     var middleContainer = document.querySelector('.middle-container');
@@ -66,17 +92,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var scaleMiddle = Math.max(maxMiddleScale, (heightDiff - detail.y) / (heightDiff / (1-maxMiddleScale))  + maxMiddleScale);
     var scaleBottom = 1 - yRatio;
 
-    // Move/translate middleContainer
     Polymer.Base.transform('translate3d(0,' + yRatio * 100 + '%,0)', middleContainer);
 
-    // Scale bottomContainer and bottom sub title to nothing and back
     Polymer.Base.transform('scale(' + scaleBottom + ') translateZ(0)', bottomContainer);
 
-    // Scale middleContainer appName
     Polymer.Base.transform('scale(' + scaleMiddle + ') translateZ(0)', appName);
   });
 
-  // Close drawer after menu item is selected if drawerPanel is narrow
   app.onMenuSelect = function() {
     var drawerPanel = document.querySelector('#paperDrawerPanel');
     if (drawerPanel.narrow) {
