@@ -12,29 +12,26 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <script>
   window.addEventListener('WebComponentsReady', function() {
 
-    // We use Page.js for routing. This is a Micro
-    // client-side router inspired by the Express router
-    // More info: https://visionmedia.github.io/page.js/
-    page('', function () {
+    if (app.route) {
+      page('/', function () {
+        app.route = 'home';
+      });
+
+      page('/quiz', function () {
+        app.route = 'quiz';
+      });
+
+      page('/finish', function () {
+        app.route = 'finish';
+      });
+
+      // add #! before urls
+      page({
+        hashbang: true
+      });
+    } else {
       app.route = 'home';
-    });
-
-    page('/', function () {
-      app.route = 'home';
-    });
-
-    page('/quiz', function () {
-      app.route = 'quiz';
-    });
-
-    page('/finish', function () {
-      app.route = 'finish';
-    });
-
-    // add #! before urls
-    page({
-      hashbang: true
-    });
+    }
 
   });
 </script>
