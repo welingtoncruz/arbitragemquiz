@@ -5,22 +5,24 @@
       margin-left: 10px;
     }
 
-    paper-header-panel {
-      height: 500px;
-      background-color: #FFFFFF;
-    }
-
     .question {
-      font-size: 15px;
       height: 100%;
       background-color: #F5F5F5;
       color: #333;
-      padding: 10px;
+      width: 99%;
+      margin-left: 3px;
     }
 
     .description {
-      font-size: 18px;
-      width: 100%;
+      font-size: 14px;
+      width: 95%;
+      margin: auto;
+    }
+
+    .content {
+      margin: 5px 0px auto;
+      height: 100%;
+      font-size: 12px;
     }
 
     .count {
@@ -32,24 +34,24 @@
       overflow: hidden;
     }
 
+    .top {
+      margin: auto;
+      width: 100%;
+      overflow: hidden;
+    }
+
   </style>
   <template>
-    <div>
-      <paper-header-panel main condenses keep-condensed-header>
-        <div class="question">
-          <div class="description">
-            <span style="margin: auto;">{{question.DESCRICAO}}</span>
-          </div>
-        </div>
-        <div>
-          <paper-radio-group>
-            <template is="dom-repeat" items="{{alternatives}}">
-              <paper-radio-button name="{{item.ID}}">{{item.DESCRICAO}}</paper-radio-button>
-            </template>
-          </paper-radio-group>
-        </div>
-      </paper-header-panel>
-    </div>
+      <div class="question">
+        <span class="description">{{question.DESCRICAO}}</span>
+      </div>
+      <div class="content">
+        <paper-radio-group>
+          <template is="dom-repeat" items="{{alternatives}}">
+            <paper-radio-button name="{{item.ID}}">{{item.DESCRICAO}}</paper-radio-button>
+          </template>
+        </paper-radio-group>
+      </div>
   </template>
 
   <script>
