@@ -32,7 +32,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         tx.executeSql('CREATE TABLE IF NOT EXISTS CONFIGURACAO (NOVA_INSTALACAO CHAR (1, 1) NOT NULL);',
           [],
           tableConfigOk(db),
-          errorHandler)
+          errorHandler);
       });
   });
 
@@ -41,12 +41,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       tx.executeSql('SELECT NOVA_INSTALACAO FROM CONFIGURACAO;',
         [],
         verificaBanco,
-        errorHandler)
+        errorHandler);
     });
   }
 
   function verificaBanco(tx, results) {
-    if (results.rows.length == 0) {
+    if (results.rows.length === 0) {
       var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
       $.get('../database/quizFifaApp.sql', function (response) {
         processQuery(db, 2, response.split(';\n'), 'quizFifaApp');
@@ -79,7 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     var we_think_this_error_is_fatal = true;
     if (we_think_this_error_is_fatal) { return true; }
     return false;
-  };
+  }
 
   addEventListener('paper-header-transform', function(e) {
     var appName = document.querySelector('.app-name');
