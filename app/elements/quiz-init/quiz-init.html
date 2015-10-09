@@ -133,7 +133,7 @@
       </paper-scroll-header-panel>
 
       <!-- Main Area -->
-      <paper-scroll-header-panel main condenses keep-condensed-header>
+      <paper-header-panel main condenses keep-condensed-header>
 
         <!-- Main Toolbar -->
         <paper-toolbar id="mainToolbar" class="title">
@@ -169,7 +169,7 @@
             </div>
           </paper-material>
         </div>
-      </paper-scroll-header-panel>
+      </paper-header-panel>
     </paper-drawer-panel>
   </template>
 
@@ -217,7 +217,8 @@
             questions.push(question);
           }
           app.route = 'quiz';
-          Polymer.dom(document.body).appendChild(quizPlay);
+          var pages = document.querySelector('iron-pages')
+          Polymer.dom(document.getElementById('route-quiz')).appendChild(quizPlay);
           quizPlay.questions = questions;
         }
 

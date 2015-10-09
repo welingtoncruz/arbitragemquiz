@@ -11,27 +11,14 @@
       color: #757575;
     }
 
-    .app-icon {
-      margin-left: 5px;
-      width: 10%;
-    }
-
-    .countdown {
-      margin-right: 40px;
-    }
-
     .count {
-      width: 78%;
-      text-align: center;
       margin: auto;
       font-size: 30px;
-      border-radius: 50px;
-      overflow: hidden;
     }
 
     /* Height of the scroll area */
     .content {
-      margin-top: auto;
+      margin: auto;
       height: 100%;
     }
 
@@ -57,7 +44,7 @@
     ninja-countdown {
       position: absolute;
       margin-top: 18px;
-      margin-left: 5px;
+      margin-left: 0px;
     }
 
     .fluxo {
@@ -72,15 +59,26 @@
       background-color: var(--default-primary-color);
     }
 
+    #drawerToolbar {
+      color: var(--secondary-text-color);
+      background-color: var(--drawer-menu-color);
+      border-bottom: var(--drawer-toolbar-border-color);
+    }
+
 
   </style>
   <template>
-        <paper-toolbar id="mainToolbar">
+
+    <paper-drawer-panel id="paperDrawerPanel2">
+
+      <paper-header-panel main condenses keep-condensed-header>
+
+        <paper-toolbar>
           <!-- Application name -->
-          <div class="horizontal layout" style="width: 100%; position: absolute">
-            <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+          <div class="horizontal layout" style="width: 100%;">
+            <div><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
             <div class="count"><b>{{questionNumber}}</b>/<b>{{questions.length}}</b></div>
-            <div class="countdown">
+            <div>
               <div class="bola-futebol">
                 <ninja-countdown id="countdown" init-mins="30" auto show-mins show-secs></ninja-countdown>
               </div>
@@ -97,7 +95,7 @@
           </iron-pages>
 
           <div class="fluxo">
-            <div style="width: 85%">
+            <div>
               <paper-icon-button icon="arrow-back" alt="arrow-back" class="orange" on-tap="back"></paper-icon-button>
             </div>
             <div>
@@ -108,6 +106,9 @@
           <paper-button attr-for-selected="data-route" on-tap="finish" raised>Finalizar</paper-button>
 
         </div>
+      </paper-header-panel>
+
+    </paper-drawer-panel>
   </template>
 
   <script>
@@ -160,7 +161,7 @@
         },
 
         destroyQuiz: function() {
-          Polymer.dom(document.body).removeChild(this);
+          Polymer.dom(document.getElementById('route-quiz')).removeChild(this);
         }
       });
     })();
