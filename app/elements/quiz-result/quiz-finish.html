@@ -1,18 +1,5 @@
 <dom-module id="quiz-finish">
   <style>
-    .pages {
-      display: flex;
-    }
-
-    #mainToolbar .middle-container  {
-      margin-left: 0px;
-    }
-
-    #mainToolbar .bottom {
-      margin-left: 12px;
-      height: 200px;
-    }
-
     /* Height of the scroll area */
     .content {
       margin-top: 2px auto;
@@ -45,15 +32,15 @@
     }
 
     .value {
-      font-size: 120px;
+      font-size: 160px;
     }
 
     paper-button {
-      display: block;
-      margin-bottom: 24px;
-      color: #FFFFFF;
-      background-color: var(--default-primary-color);
       width: 100%;
+      background-color: var(--default-primary-color);
+      color: #FFF;
+      position: absolute;
+      bottom: 30px;
     }
 
 
@@ -68,15 +55,12 @@
         </paper-toolbar>
 
         <!-- Main Content -->
-          <paper-material class="content" elevation="0">
-            <div class="score">Score</div>
-            <div class="score value">83%</div>
-          </paper-material>
+        <paper-material class="content" elevation="0">
+          <div class="score">Score</div>
+          <div class="score value">{{resultQuiz}}<span>%</span></div>
+        </paper-material>
 
-          <div class="horizontal layout">
-            <paper-button attr-for-selected="data-route" on-tap="tryAgain" raised>Tentar novamente</paper-button>
-            <paper-button attr-for-selected="data-route" on-tap="tryAgain" raised>Scores</paper-button>
-          </div>
+        <paper-button attr-for-selected="data-route" on-tap="tryAgain" raised>Tentar novamente</paper-button>
   </template>
 
   <script>
@@ -84,8 +68,20 @@
       QuizFinish = Polymer({
         is: 'quiz-finish',
 
+        properties: {
+          resultQuiz: {
+            type: Number,
+            value: 0
+          }
+        },
+
         tryAgain: function() {
           app.route = 'home';
+          this.destroyQuiz();
+        },
+
+        destroyQuiz: function() {
+          Polymer.dom(document.getElementById('route-finish')).removeChild(this);
         }
       });
     })();

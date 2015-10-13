@@ -20,6 +20,7 @@
     .content {
       margin: auto;
       height: 100%;
+      overflow: hidden;
     }
 
     .description {
@@ -43,72 +44,59 @@
 
     ninja-countdown {
       position: absolute;
-      margin-top: 18px;
-      margin-left: 0px;
-    }
-
-    .fluxo {
-      display: flex;
-      width: 100%;
+      margin-top: 17px;
+      margin-left: 4px
     }
 
     paper-button {
-      display: block;
-      margin-bottom: 24px;
-      color: #FFFFFF;
+      width: 100%;
       background-color: var(--default-primary-color);
+      color: #FFF;
+      position: absolute;
+      bottom: 30px;
     }
 
-    #drawerToolbar {
-      color: var(--secondary-text-color);
-      background-color: var(--drawer-menu-color);
-      border-bottom: var(--drawer-toolbar-border-color);
+    .left {
+      position: absolute;
+      background-color: #000;
+      top: 162px;
+      left: 5px;
     }
 
+    .right {
+      position: absolute;
+      background-color: #000;
+      top: 163px;
+      right: 5px;
+    }
 
   </style>
   <template>
-
-    <paper-drawer-panel id="paperDrawerPanel2">
-
-      <paper-header-panel main condenses keep-condensed-header>
-
-        <paper-toolbar>
-          <!-- Application name -->
-          <div class="horizontal layout" style="width: 100%;">
-            <div><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
-            <div class="count"><b>{{questionNumber}}</b>/<b>{{questions.length}}</b></div>
-            <div>
-              <div class="bola-futebol">
-                <ninja-countdown id="countdown" init-mins="30" auto show-mins show-secs></ninja-countdown>
-              </div>
+      <!-- Application name -->
+      <div style="width: 100%;background-color: #000; color: #FFF">
+        <div class="horizontal layout">
+          <div flex><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+          <div flex class="count"><b>{{questionNumber}}</b>/<b>{{questions.length}}</b></div>
+          <div flex>
+            <div class="bola-futebol">
+              <ninja-countdown id="countdown" init-mins="30" auto show-mins show-secs></ninja-countdown>
             </div>
           </div>
-        </paper-toolbar>
-
-        <!-- Main Content -->
-        <div class="content">
-          <iron-pages id="page-question" selected="0">
-            <template is="dom-repeat" items="{{questions}}">
-              <quiz-question question="{{item}}"></quiz-question>
-            </template>
-          </iron-pages>
-
-          <div class="fluxo">
-            <div>
-              <paper-icon-button icon="arrow-back" alt="arrow-back" class="orange" on-tap="back"></paper-icon-button>
-            </div>
-            <div>
-              <paper-icon-button icon="arrow-forward" alt="arrow-forward" class="green" on-tap="forward"></paper-icon-button>
-            </div>
-          </div>
-
-          <paper-button attr-for-selected="data-route" on-tap="finish" raised>Finalizar</paper-button>
-
         </div>
-      </paper-header-panel>
+      </div>
 
-    </paper-drawer-panel>
+    <!-- Main Content -->
+    <div class="content">
+      <iron-pages id="page-question" selected="0">
+        <template is="dom-repeat" items="{{questions}}" as="question">
+          <quiz-question question="{{question}}"></quiz-question>
+        </template>
+      </iron-pages>
+    </div>
+
+    <paper-fab class="left" icon="arrow-back" alt="arrow-back" mini on-tap="back"></paper-fab>
+    <paper-button attr-for-selected="data-route" on-tap="finish" raised>Finalizar</paper-button>
+    <paper-fab class="right" icon="arrow-forward" alt="arrow-forward" mini on-tap="forward"></paper-fab>
   </template>
 
   <script>
@@ -121,7 +109,8 @@
             type: Array,
             value: function() {
               return [];
-            }
+            },
+            notify: true
           },
           questionNumber: {
             type: Number,
@@ -150,12 +139,27 @@
         },
 
         finish: function() {
-          app.route = 'finish';
+          var result = 0;
 
           for (var i=0; i< this.questions.length; i++) {
             var question = this.questions[i];
-            console.log(question.alternatives);
+            var answer = question.answer;
+
+            if (answer) {
+              if (answer.CORRETA === "true") {
+                result += 1;
+              }
+            }
           }
+
+          var totalResult = (result/this.questions.length)*100;
+          var quizFinish = new QuizFinish();
+          quizFinish.resultQuiz = totalResult;
+
+          var pages = document.querySelector('iron-pages');
+          Polymer.dom(document.getElementById('route-finish')).appendChild(quizFinish);
+
+          app.route = 'finish';
 
           this.destroyQuiz();
         },

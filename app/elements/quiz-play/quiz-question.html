@@ -2,27 +2,36 @@
   <style is="custom-style">
     paper-radio-button {
       display: block;
-      margin-left: 10px;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 5px;
+
+      /* Unchecked state colors. */
+      --paper-radio-button-unchecked-color: black;
+      --paper-radio-button-unchecked-background-color: #fff;
+      --paper-radio-button-unchecked-ink-color: #fff;
+
+      /* Checked state colors. */
+      --paper-radio-button-checked-color: black;
+      --paper-radio-button-checked-ink-color: #FFF;
+
+      --paper-radio-button-label-color: black;
     }
 
     .question {
-      height: 100%;
-      background-color: #F5F5F5;
-      color: #333;
-      width: 99%;
-      margin-left: 3px;
-    }
-
-    .description {
+      height: 130px;
+      width: 100%;
+      background-color: #eee;
       font-size: 14px;
-      width: 95%;
-      margin: auto;
+      line-height: 100px;
+      text-align: center;
     }
-
     .content {
-      margin: 5px 0px auto;
-      height: 100%;
+      margin-top: 10px;
       font-size: 12px;
+      height: 290px;
+      overflow-x: hidden;
+      width: 100%;
     }
 
     .count {
@@ -40,18 +49,40 @@
       overflow: hidden;
     }
 
+    ::-webkit-scrollbar {
+      width: 1px;
+    }
+    ::-webkit-scrollbar-button {
+      width: 1px;
+      height:5px;
+    }
+    ::-webkit-scrollbar-track {
+    }
+    ::-webkit-scrollbar-thumb {
+      background:#999;
+      border: thin solid #999;
+      border-radius:10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background:#7d7d7d;
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: normal;
+    }
+
   </style>
   <template>
-      <div class="question">
-        <span class="description">{{question.DESCRICAO}}</span>
-      </div>
-      <div class="content">
-        <paper-radio-group>
-          <template is="dom-repeat" items="{{alternatives}}">
-            <paper-radio-button name="{{item.ID}}">{{item.DESCRICAO}}</paper-radio-button>
+      <div class="question"> <span style="margin: auto">{{question.DESCRICAO}}</span></div>
+    <div class="content" id="style-4">
+        <paper-radio-group selected="{{answer}}">
+          <template is="dom-repeat" items="{{question.alternatives}}">
+            <paper-radio-button name="{{item}}">{{item.DESCRICAO}}</paper-radio-button>
           </template>
         </paper-radio-group>
-      </div>
+     </div>
   </template>
 
   <script>
@@ -60,18 +91,42 @@
         is: 'quiz-question',
         properties: {
           question: {
-            type: Object
+            type: Object,
+            notify: true
           },
-          alternatives: {
-            type: Array,
-            value: function() {
-              return [];
-            }
+
+          carregouAlternativas: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
+          answer: {
+            type: Object,
+            notify: true
+          }
+        },
+
+        observers: [
+          'change(carregouAlternativas)',
+          'changeAnswer(answer)'
+        ],
+
+        change: function(changeRecord) {
+          if (changeRecord === 1) {
+            $('quiz-question template').each(
+              function (i, e) {
+                e.items = this.parentElement.parentElement.parentElement.question.alternatives;
+              });
+          }
+        },
+
+        changeAnswer: function(changeRecord) {
+          if (changeRecord) {
+            this.question.answer = this.answer;
           }
         },
 
         ready: function() {
-
           var seed = (Math.random() + 1) * 1111111;
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           var whereQuestion = 'where PERGUNTA_ID = '+ this.question.ID;
@@ -92,7 +147,8 @@
             var alternativa = results.rows.item(i);
             alternatives.push(alternativa);
           }
-          this.alternatives = alternatives;
+          this.question.alternatives = alternatives;
+          this.carregouAlternativas = 1;
         },
 
         errorHandler: function (transaction, error) {

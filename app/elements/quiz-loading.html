@@ -1,0 +1,30 @@
+<dom-module id="quiz-loading">
+  <style>
+
+    paper-spinner {
+      --paper-spinner-layer-1-color: #000;
+      --paper-spinner-layer-2-color: #000;
+      --paper-spinner-layer-3-color: #000;
+      --paper-spinner-layer-4-color: #000;
+    }
+
+  </style>
+  <template>
+    <div fullbleed layout vertical center>
+      <paper-spinner active alt="Carregando..."></paper-spinner>
+    </div>
+  </template>
+
+  <script>
+    (function() {
+      QuizLoading = Polymer({
+        is: 'quiz-loading',
+
+        destroyLoading: function() {
+          Polymer.dom(document.getElementById('route-loading')).removeChild(this);
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

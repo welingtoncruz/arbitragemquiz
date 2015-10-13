@@ -57,20 +57,27 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- endreplace-->
 </head>
 
-<body class="fullbleed layout vertical">
+<body class="fullbleed layout vertical" style="overflow: hidden;">
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
     <iron-pages attr-for-selected="data-route" selected="{{route}}">
       <section data-route="home">
-          <inicial-quiz></inicial-quiz>
+          <quiz-init></quiz-init>
+      </section>
+
+      <section id="route-scores" data-route="scores">
+        <quiz-scores ></quiz-scores>
       </section>
 
       <section id="route-quiz" data-route="quiz">
       </section>
 
-      <section data-route="finish">
-        <quiz-finish></quiz-finish>
+      <section id="route-finish" data-route="finish">
+      </section>
+
+      <section id="route-loading" data-route="loading">
+        <quiz-loading></quiz-loading>
       </section>
 
     </iron-pages>
@@ -80,6 +87,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- build:js scripts/app.js -->
   <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
   <script src="scripts/app.js"></script>
+
   <!-- endbuild-->
 </body>
 

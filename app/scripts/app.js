@@ -48,11 +48,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   function verificaBanco(tx, results) {
     if (results.rows.length === 0) {
       var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
-      $.get('../database/quizFifaApp.sql', function (response) {
+      $.get('database/quizFifaApp.sql', function (response) {
         processQuery(db, 2, response.split(';\n'), 'quizFifaApp');
       });
     } else {
-      console.log('Banco já instalado');
+      app.route = "home";
     }
   }
 
@@ -70,7 +70,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         processQuery(db, i +1, queries, dbname);
       });
     } else {
-      console.log("Done importing!");
+      app.route = "home";
     }
   }
 
@@ -105,5 +105,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       drawerPanel.closeDrawer();
     }
   };
+
+
+
 
 })(document);

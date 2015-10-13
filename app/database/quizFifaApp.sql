@@ -310,7 +310,7 @@ INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (306, 'Um gol pode ser marcad
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (307, 'Na execução de um tiro de canto, um jogador toca, ligeiramente, a bola para trás com o calcanhar, porém ela não sai do quarto de círculo. Qual será a decisão do árbitro?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (308, 'Na execução de um tiro de canto, o executor pode colocar a bola sobre a linha do quarto de círculo?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (309, 'Qual a distância mínima que o adversário deve ficar do quarto de círculo, na execução de um tiro de canto?', 'F');
-INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (310, '310)Quando a bola entra em jogo em um tiro de canto?', 'F');
+INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (310, 'Quando a bola entra em jogo em um tiro de canto?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (311, 'É marcado um tiro de canto a favor de uma das equipes. O goleiro desta equipe decide executá-lo. Qual será a decisão do árbitro?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (312, 'Qual das seguintes afirmações está incorreta em relação à execução de um tiro de canto?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (313, 'Na execução de um tiro de canto, o jogador eleva a bola com um ou ambos os pés. Qual será a decisão do árbitro?', 'F');
@@ -4092,6 +4092,8 @@ INSERT INTO ALTERNATIVA (ID, PERGUNTA_ID, DESCRICAO, CORRETA) VALUES (3273, 817,
 
 -- Table: CONFIGURACAO
 INSERT INTO CONFIGURACAO (NOVA_INSTALACAO) VALUES ('F');
+
+CREATE TABLE IF NOT EXISTS SCORES (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, RESULTADO INTEGER, DATA DATE NOT NULL DEFAULT CURRENT_DATE);
 
 COMMIT TRANSACTION;
 PRAGMA foreign_keys = on;

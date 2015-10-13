@@ -27,6 +27,7 @@
     "unescape": false,
     "MY_LIB": false,
     "QuizPlay": true,
-    "QuizFinish": true
+    "QuizFinish": true,
+    "QuizLoading": true
   }
 }
