@@ -25,7 +25,7 @@ INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (21, 'O campo de jogo pode se
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (22, 'Os 16,50 m da área penal são medidos a partir de que lugar?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (23, 'Pode haver linhas diferentes no campo de jogo, daquelas que estão estabelecidas pela Regra 1?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (24, 'Deve haver uma marca no centro no campo de jogo?', 'F');
-INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (25, ' O  travessão  se  rompe  e  não  há  como  consertá-lo  ou  substituí-lo.  A  partida  deve  ser  suspensa definitivamente?', 'F');
+INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (25, 'O  travessão  se  rompe  e  não  há  como  consertá-lo  ou  substituí-lo.  A  partida  deve  ser  suspensa definitivamente?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (26, 'Quais são as medidas do campo de jogo em partidas não internacionais?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (27, 'Quais são as medidas máximas e mínimas, em metros, das metas?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (28, 'A bola estoura ou se danifica em um momento em que não está em jogo. Como será reiniciada a partida?', 'F');
@@ -114,7 +114,7 @@ INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (110, 'Um jogador, após se c
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (111, 'Um membro da comissão técnica se comporta de maneira incorreta. Qual será a decisão do árbitro?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (112, 'Um jogador sofre uma falta, mas se levanta e continua jogando. O árbitro...', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (113, 'Um jogador se lesiona durante a partida. Após a avaliação, o médico diz ao árbitro que haverá um grande risco de piora se o jogador continuar jogando. O árbitro pode proibir a permanência deste jogador no campo de jogo?', 'F');
-INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (114, '114)O árbitro pode consultar o assistente a respeito da validade de um gol em quais situações?', 'F');
+INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (114, 'O árbitro pode consultar o assistente a respeito da validade de um gol em quais situações?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (115, 'O árbitro pode relatar as advertências e expulsões sem expor os seus motivos?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (116, 'O árbitro pode permitir a entrada do médico no campo de jogo?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (117, 'O árbitro tem que relatar as ocorrências antes do início da partida?', 'F');
@@ -224,7 +224,7 @@ INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (220, 'O árbitro pode mostra
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (221, 'Dois jogadores adversários, acidentalmente, saem do campo momentaneamente. Após a saída deles e com a bola em jogo, um dos jogadores, que está disputando a bola, agride o rosto de seu adversário com uso de força excessiva. Qual será a decisão do árbitro?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (222, 'O capitão de uma equipe pode expulsar um companheiro do campo de jogo?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (223, 'Um jogador, com a bola em jogo, aplaude uma decisão da arbitragem, em uma atitude de protesto. O árbitro...', 'F');
-INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (224, '224)Um jogador, com a bola em jogo, agride o árbitro. Qual será a decisão do árbitro?', 'F');
+INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (224, 'Um jogador, com a bola em jogo, agride o árbitro. Qual será a decisão do árbitro?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (225, 'Na execução de um bola ao chão, um jogador defensor agride seu adversário com o uso de força excessiva, antes de a bola tocar no solo. Qual será a decisão do árbitro?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (226, 'A bola deve ser considerada como um objeto, quando utilizada para agredir o adversário?', 'F');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL) VALUES (227, 'Um jogador, com a bola em jogo, agride um adversário com uso de força excessiva. Que infração é esta?', 'F');
