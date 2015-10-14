@@ -79,11 +79,12 @@
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           db.transaction(
             $.proxy(function (tx){
-              tx.executeSql('INSERT INTO SCORES(RESULTADO, DATA) VALUES(?, ?);', [this.resultQuiz, new Date()]),
-                [],
-                this.dataHandler,
-                this.errorHandler
-          }, this));
+              tx.executeSql('INSERT INTO SCORES(RESULTADO, DATA) VALUES(?, ?);',
+                [this.resultQuiz, new Date()],
+                null,
+                this.errorHandler);
+            }, this)
+          );
 
           app.route = 'home';
           this.destroyQuiz();
@@ -91,10 +92,6 @@
 
         destroyQuiz: function() {
           Polymer.dom(document.getElementById('route-finish')).removeChild(this);
-        },
-
-        dataHandler: function (tx, results) {
-          console.log('Incluído');
         },
 
         errorHandler: function (transaction, error) {
