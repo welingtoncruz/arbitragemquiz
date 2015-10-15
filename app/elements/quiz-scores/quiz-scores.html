@@ -1,0 +1,71 @@
+<dom-module id="quiz-scores">
+  <style>
+    /* Height of the scroll area */
+    .content {
+      margin-top: 2px auto;
+      height: 100%;
+      padding: 75px;
+    }
+
+    .icon-quiz {
+      width: 50px;
+      height: 50px;
+    }
+
+    .app-icon {
+      margin-left: 5px;
+      width: 50px;
+      height:50px;
+    }
+
+    .resultado {
+      width: 100%;
+      margin: auto;
+      font-size: 25px;
+      margin-left: 25px;
+    }
+
+  </style>
+  <template>
+        <paper-toolbar id="mainToolbar" class="title">
+          <!-- Application name -->
+          <div class="horizontal layout">
+            <a data-route="home" href="/">
+              <iron-icon style="color: #FFF; width: 30px; height: 50px;" icon="arrow-back"></iron-icon>
+            </a>
+            <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+            <div class="resultado">Scores</div>
+          </div>
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <paper-material class="content" elevation="0">
+
+        </paper-material>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'quiz-scores',
+
+        properties: {
+          resultQuiz: {
+            type: Number,
+            value: 0
+          }
+        },
+
+        back: function() {
+          app.route = 'home';
+          this.destroyQuiz();
+        },
+
+        destroyQuiz: function() {
+          Polymer.dom(document.getElementById('route-scores')).removeChild(this);
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

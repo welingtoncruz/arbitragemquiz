@@ -22,27 +22,28 @@
       width: 100%;
       margin: auto;
       font-size: 25px;
-      padding: 5px;
+      margin-left: 25px;
     }
 
     .score {
       margin: auto;
-      font-size: 25px;
+      font-size: 3em;
       text-align: center;
     }
 
     .value {
-      font-size: 160px;
+      margin: auto;
+      font-size: 8em;
+      text-align: center;
     }
 
     paper-button {
-      width: 100%;
+      width: 96%;
       background-color: var(--default-primary-color);
       color: #FFF;
       position: absolute;
       bottom: 30px;
     }
-
 
   </style>
   <template>
@@ -55,10 +56,8 @@
         </paper-toolbar>
 
         <!-- Main Content -->
-        <paper-material class="content" elevation="0">
-          <div class="score">Score</div>
-          <div class="score value">{{resultQuiz}}<span>%</span></div>
-        </paper-material>
+        <div class="score">Score</div>
+        <div class="value">{{resultQuiz}}<span>%</span></div>
 
         <paper-button attr-for-selected="data-route" on-tap="tryAgain" raised>Tentar novamente</paper-button>
   </template>

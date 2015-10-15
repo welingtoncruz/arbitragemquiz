@@ -34,7 +34,7 @@
     }
 
     paper-button {
-      width: 100%;
+      width: 96%;
       background-color: var(--default-primary-color);
       color: #FFF;
       position: absolute;
@@ -56,7 +56,7 @@
       width: 100%;
       margin: auto;
       font-size: 25px;
-      padding: 5px;
+      margin-left: 25px;
     }
 
     paper-icon-button[icon=menu] {
@@ -236,8 +236,14 @@
           Polymer.dom(document.getElementById('route-quiz')).appendChild(quizPlay);
           quizPlay.questions = questions;
           app.route = 'quiz';
-        }
+        },
 
+        onMenuSelect: function() {
+          var drawerPanel = document.querySelector('#paperDrawerPanel');
+          if (drawerPanel.narrow) {
+            drawerPanel.closeDrawer();
+          }
+        }
       });
     })();
   </script>

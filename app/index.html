@@ -14,19 +14,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <head>
   <meta charset="utf-8">
   <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="Arbitragem Quiz" />
-  <title>Arbitragem Quiz</title>
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+  <meta name="generator" content="TRIVIA" />
+  <title>TRIVIA</title>
   <!-- Place favicon.ico in the `app/` directory -->
 
   <!-- Chrome for Android theme color -->
-  <meta name="theme-color" content="#F44336">
+  <meta name="theme-color" content="#000">
 
   <!-- Web Application Manifest -->
   <link rel="manifest" href="manifest.json">
 
   <!-- Tile color for Win8 -->
-  <meta name="msapplication-TileColor" content="#F44336">
+  <meta name="msapplication-TileColor" content="#000">
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -57,38 +58,38 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- endreplace-->
 </head>
 
-<body class="fullbleed layout vertical" style="overflow: hidden;">
-  <span id="browser-sync-binding"></span>
-  <template is="dom-bind" id="app">
+<body class="fullbleed layout vertical">
+<span id="browser-sync-binding"></span>
+<template is="dom-bind" id="app">
 
-    <iron-pages attr-for-selected="data-route" selected="{{route}}">
-      <section data-route="home">
-          <quiz-init></quiz-init>
-      </section>
+  <iron-pages attr-for-selected="data-route" selected="{{route}}">
+    <section data-route="home">
+      <quiz-init></quiz-init>
+    </section>
 
-      <section id="route-scores" data-route="scores">
-        <quiz-scores></quiz-scores>
-      </section>
+    <section data-route="scores">
+      <quiz-scores ></quiz-scores>
+    </section>
 
-      <section id="route-quiz" data-route="quiz">
-      </section>
+    <section id="route-quiz" data-route="quiz">
+    </section>
 
-      <section id="route-finish" data-route="finish">
-      </section>
+    <section id="route-finish" data-route="finish">
+    </section>
 
-      <section id="route-loading" data-route="loading">
-        <quiz-loading></quiz-loading>
-      </section>
+    <section id="route-loading" data-route="loading">
+      <quiz-loading></quiz-loading>
+    </section>
 
-    </iron-pages>
+  </iron-pages>
 
-  </template>
+</template>
 
-  <!-- build:js scripts/app.js -->
-  <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-  <script src="scripts/app.js"></script>
+<!-- build:js scripts/app.js -->
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+<script src="scripts/app.js"></script>
 
-  <!-- endbuild-->
+<!-- endbuild-->
 </body>
 
 </html>
