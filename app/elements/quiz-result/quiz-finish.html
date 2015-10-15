@@ -75,11 +75,19 @@
         },
 
         tryAgain: function() {
+          var d = new Date(),
+            dformat = [d.getDate(),
+                d.getMonth()+1,
+                d.getFullYear()].join('/')+' '+
+              [d.getHours(),
+                d.getMinutes(),
+                d.getSeconds()].join(':');
+
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           db.transaction(
             $.proxy(function (tx){
               tx.executeSql('INSERT INTO SCORES(RESULTADO, DATA) VALUES(?, ?);',
-                [this.resultQuiz, new Date()],
+                [this.resultQuiz, dformat],
                 null,
                 this.errorHandler);
             }, this)

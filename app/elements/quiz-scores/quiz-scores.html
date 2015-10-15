@@ -25,23 +25,55 @@
       margin-left: 25px;
     }
 
+    .content {
+      margin-top: 10px;
+      font-size: 12px;
+      height: 290px;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 1px;
+    }
+    ::-webkit-scrollbar-button {
+      width: 1px;
+      height:5px;
+    }
+    ::-webkit-scrollbar-track {
+    }
+    ::-webkit-scrollbar-thumb {
+      background:#999;
+      border: thin solid #999;
+      border-radius:10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background:#7d7d7d;
+    }
+
   </style>
   <template>
-        <paper-toolbar id="mainToolbar" class="title">
-          <!-- Application name -->
-          <div class="horizontal layout">
-            <a data-route="home" href="/">
-              <iron-icon style="color: #FFF; width: 30px; height: 50px;" icon="arrow-back"></iron-icon>
-            </a>
-            <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
-            <div class="resultado">Scores</div>
-          </div>
-        </paper-toolbar>
+      <paper-toolbar id="mainToolbar" class="title">
+        <!-- Application name -->
+        <div class="horizontal layout">
+          <a data-route="home" href="/">
+            <iron-icon style="color: #FFF; width: 30px; height: 50px;" icon="arrow-back"></iron-icon>
+          </a>
+          <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+          <div class="resultado">Scores</div>
+        </div>
+      </paper-toolbar>
 
-        <!-- Main Content -->
-        <paper-material class="content" elevation="0">
-
-        </paper-material>
+      <!-- Main Content -->
+      <div style="width: 100%;">
+        <div class="content" id="style-4">
+          <template is="dom-repeat" items="{{scores}}">
+             <paper-material class="horizontal layout" style="margin-top: 20px; font-size: 14px; height: 50px;">
+              <div style="width: 50%;"><span style="margin: auto;">{{item.RESULTADO}}</span><span>%</span></div>
+              <div style="width: 50%;"><span style="margin: auto;">{{item.DATA}}</span></div>
+             </paper-material>
+          </template>
+        </div>
+      </div>
   </template>
 
   <script>
@@ -50,10 +82,39 @@
         is: 'quiz-scores',
 
         properties: {
-          resultQuiz: {
-            type: Number,
-            value: 0
+          scores: {
+            type: Array,
+            value: function () {
+              return [];
+            }
           }
+        },
+
+        ready: function() {
+          var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+          var select = 'SELECT * FROM SCORES ORDER BY DATA DESC';
+
+          db.transaction(
+            $.proxy(function (transaction) {
+              transaction.executeSql(select, [] , $.proxy(this.dataHandler, this), $.proxy(this.errorHandler), this);
+            },this)
+          );
+        },
+
+        errorHandler: function (transaction, error) {
+          console.log('Oops.  Error was '+error.message+' (Code '+error.code+')');
+          var we_think_this_error_is_fatal = true;
+          if (we_think_this_error_is_fatal) { return true; }
+          return false;
+        },
+
+        dataHandler: function (transaction, results) {
+          var scores = [];
+          for (var i = 0; i < results.rows.length; i++) {
+            var score = results.rows.item(i);
+            scores.push(score);
+          }
+          this.scores = scores;
         },
 
         back: function() {
