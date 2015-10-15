@@ -1,4 +1,4 @@
-<dom-module id="quiz-finish">
+<dom-module id="quiz-scores">
   <style>
     /* Height of the scroll area */
     .content {
@@ -25,47 +25,29 @@
       margin-left: 25px;
     }
 
-    .score {
-      margin: auto;
-      font-size: 3em;
-      text-align: center;
-    }
-
-    .value {
-      margin: auto;
-      font-size: 8em;
-      text-align: center;
-    }
-
-    paper-button {
-      width: 96%;
-      background-color: var(--default-primary-color);
-      color: #FFF;
-      position: absolute;
-      bottom: 30px;
-    }
-
   </style>
   <template>
         <paper-toolbar id="mainToolbar" class="title">
           <!-- Application name -->
           <div class="horizontal layout">
+            <a data-route="home" href="/">
+              <iron-icon style="color: #FFF; width: 30px; height: 50px;" icon="arrow-back"></iron-icon>
+            </a>
             <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
-            <div class="resultado">Resultado</div>
+            <div class="resultado">Scores</div>
           </div>
         </paper-toolbar>
 
         <!-- Main Content -->
-        <div class="score">Score</div>
-        <div class="value">{{resultQuiz}}<span>%</span></div>
+        <paper-material class="content" elevation="0">
 
-        <paper-button attr-for-selected="data-route" on-tap="tryAgain" raised>Tentar novamente</paper-button>
+        </paper-material>
   </template>
 
   <script>
     (function() {
-      QuizFinish = Polymer({
-        is: 'quiz-finish',
+      Polymer({
+        is: 'quiz-scores',
 
         properties: {
           resultQuiz: {
@@ -74,13 +56,13 @@
           }
         },
 
-        tryAgain: function() {
+        back: function() {
           app.route = 'home';
           this.destroyQuiz();
         },
 
         destroyQuiz: function() {
-          Polymer.dom(document.getElementById('route-finish')).removeChild(this);
+          Polymer.dom(document.getElementById('route-scores')).removeChild(this);
         }
       });
     })();

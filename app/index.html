@@ -14,19 +14,20 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <head>
   <meta charset="utf-8">
   <meta name="description" content="">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="generator" content="Arbitragem Quiz" />
-  <title>Arbitragem Quiz</title>
+  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+
+  <meta name="generator" content="TRIVIA" />
+  <title>TRIVIA</title>
   <!-- Place favicon.ico in the `app/` directory -->
 
   <!-- Chrome for Android theme color -->
-  <meta name="theme-color" content="#F44336">
+  <meta name="theme-color" content="#000">
 
   <!-- Web Application Manifest -->
   <link rel="manifest" href="manifest.json">
 
   <!-- Tile color for Win8 -->
-  <meta name="msapplication-TileColor" content="#F44336">
+  <meta name="msapplication-TileColor" content="#000">
 
   <!-- Add to homescreen for Chrome on Android -->
   <meta name="mobile-web-app-capable" content="yes">
@@ -57,7 +58,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <!-- endreplace-->
 </head>
 
-<body class="fullbleed layout vertical" style="overflow: hidden;">
+<body class="fullbleed layout vertical">
   <span id="browser-sync-binding"></span>
   <template is="dom-bind" id="app">
 
@@ -66,7 +67,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           <quiz-init></quiz-init>
       </section>
 
-      <section id="route-scores" data-route="scores">
+      <section data-route="scores">
         <quiz-scores ></quiz-scores>
       </section>
 
