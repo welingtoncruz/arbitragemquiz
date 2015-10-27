@@ -68,7 +68,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </section>
 
     <section data-route="scores">
-      <quiz-scores ></quiz-scores>
+      <template is="dom-if" if="{{isEqual(route, 'scores')}}" restamp="true">
+        <quiz-scores></quiz-scores>
+      </template>
     </section>
 
     <section id="route-quiz" data-route="quiz">
@@ -78,7 +80,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </section>
 
     <section id="route-loading" data-route="loading">
-      <quiz-loading></quiz-loading>
+        <quiz-loading></quiz-loading>
     </section>
 
   </iron-pages>

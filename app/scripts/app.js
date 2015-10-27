@@ -15,6 +15,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   // Learn more about auto-binding templates at http://goo.gl/Dx1u2g
   var app = document.querySelector('#app');
 
+  app.isEqual = function(x, y) {
+    return x === y;
+  };
+
   app.displayInstalledToast = function() {
     document.querySelector('#caching-complete').show();
   };
@@ -46,7 +50,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   }
 
   function verificaBanco(tx, results) {
-    if (results.rows.length === 0) {
+    if (!results.rows.length) {
       app.route = "loading";
       var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
       $.get('database/quizFifaApp.sql', function (response) {

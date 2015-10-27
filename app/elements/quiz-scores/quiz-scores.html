@@ -4,7 +4,13 @@
     .content {
       margin-top: 2px auto;
       height: 100%;
-      padding: 75px;
+    }
+
+    paper-material {
+      width: 100%;
+      margin-top: 10px;
+      font-size: 20px;
+      height: 50px;
     }
 
     .icon-quiz {
@@ -28,7 +34,7 @@
     .content {
       margin-top: 10px;
       font-size: 12px;
-      height: 290px;
+      height: 550px;
       overflow-x: hidden;
     }
 
@@ -65,10 +71,10 @@
 
       <!-- Main Content -->
       <div style="width: 100%;">
-        <div class="content" id="style-4">
+        <div class="content" style="width: 100%;" id="style-4">
           <template is="dom-repeat" items="{{scores}}">
-             <paper-material class="horizontal layout" style="margin-top: 20px; font-size: 14px; height: 50px;">
-              <div style="width: 50%;"><span style="margin: auto;">{{item.RESULTADO}}</span><span>%</span></div>
+             <paper-material class="horizontal layout" style$="{{getColorResult(item)}}">
+              <div style="width: 50%;"><span style="margin-left: 10px;">{{item.RESULTADO}}</span><span>%</span></div>
               <div style="width: 50%;"><span style="margin: auto;">{{item.DATA}}</span></div>
              </paper-material>
           </template>
@@ -115,6 +121,14 @@
             scores.push(score);
           }
           this.scores = scores;
+        },
+
+        getColorResult: function (item) {
+          if (item.RESULTADO>=70) {
+            return "background-color:#B2E0C2;";
+          } else {
+            return "background-color:#FFB2B2;";
+          }
         },
 
         back: function() {

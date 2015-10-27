@@ -1,17 +1,43 @@
 <dom-module id="quiz-loading">
   <style>
+    .icon-quiz {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
 
-    paper-spinner {
-      --paper-spinner-layer-1-color: #000;
-      --paper-spinner-layer-2-color: #000;
-      --paper-spinner-layer-3-color: #000;
-      --paper-spinner-layer-4-color: #000;
+    .app-icon {
+      margin-left: 5px;
+      width: 50px;
+      height:50px;
+    }
+
+    .titulo {
+      width: 100%;
+      margin: auto;
+      font-size: 25px;
+      margin-left: 25px;
+    }
+
+    .content {
+      height: 100%;
     }
 
   </style>
   <template>
-    <div fullbleed layout vertical center>
-      <paper-spinner active alt="Carregando..."></paper-spinner>
+    <div style="width: 100%;background-color: #000; color: #FFF">
+      <div class="middle middle-container center horizontal layout">
+        <div class="app-icon"><iron-icon class="icon-quiz" src="../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+        <div class="titulo">TRIVIA</div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+      <div style="width: 100%">
+        <div style="margin-top: 100px; margin-bottom: 10px; text-align: center; font-size: larger;">{{textoInformativo}}</div>
+        <paper-progress style="width: 100%;" indeterminate></paper-progress>
+      </div>
     </div>
   </template>
 
@@ -19,6 +45,13 @@
     (function() {
       QuizLoading = Polymer({
         is: 'quiz-loading',
+        properties: {
+          textoInformativo: String
+        },
+
+        ready: function(e){
+          this.textoInformativo = 'Carregando informações...';
+        },
 
         destroyLoading: function() {
           Polymer.dom(document.getElementById('route-loading')).removeChild(this);

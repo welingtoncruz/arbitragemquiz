@@ -31,6 +31,11 @@
       text-align: center;
     }
 
+    .info {
+      margin: auto;
+      text-align: center;
+    }
+
     .value {
       margin: auto;
       font-size: 8em;
@@ -57,8 +62,8 @@
 
         <!-- Main Content -->
         <div class="score">Score</div>
-        <div class="value">{{resultQuiz}}<span>%</span></div>
-
+        <div class="value" style$="{{resultColor}}">{{resultQuiz}}<span>%</span></div>
+        <div class="info">{{textInfo}}</div>
         <paper-button attr-for-selected="data-route" on-tap="tryAgain" raised>Tentar novamente</paper-button>
   </template>
 
@@ -71,7 +76,14 @@
           resultQuiz: {
             type: Number,
             value: 0
-          }
+          },
+          textInfo: String,
+          resultColor: String,
+        },
+
+        attached: function () {
+          this.textInfo = this.resultQuiz >= 70 ? 'Parabéns, você atingiu o indice de aprovação.' : 'Não foi dessa vez, mas não desanime. Tente novamente.';
+          this.resultColor = this.resultQuiz >= 70 ? 'color:green' : 'color:red';
         },
 
         tryAgain: function() {
