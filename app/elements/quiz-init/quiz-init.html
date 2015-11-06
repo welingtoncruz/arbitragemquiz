@@ -144,7 +144,7 @@
           </a>
           <a data-route="scores" href="/scores">
             <iron-icon icon="assessment"></iron-icon>
-            <span>Scores</span>
+            <span>Resultados</span>
           </a>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -160,7 +160,7 @@
           <!-- Application name -->
           <div class="middle middle-container center horizontal layout">
             <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
-            <div class="titulo">TRIVIA</div>
+            <div class="titulo">TRÍVIA QUIZ</div>
           </div>
 
         </paper-toolbar>
@@ -171,16 +171,9 @@
             <div class="header">
               <h1> Desafio </h1>
             </div>
-            <span class="paper-font-body2">Quiz composto de 20 questões aleatórias do programa de avaliação para arbitragem da Fifa. Você terá 30 minutos para responder as questões.</span>
-            <div class="level">
-              <h3 class="paper-font-body2">Escolha o nível do teste:</h3>
-
-              <paper-radio-group selected="{{level}}">
-                <paper-radio-button name="F">Fácil</paper-radio-button>
-                <paper-radio-button name="D">Dificil</paper-radio-button>
-                <paper-radio-button name="">Aleatório</paper-radio-button>
-              </paper-radio-group>
-            </div>
+            <span class="paper-font-body2">Quiz composto de 20 questões aleatórias do programa de avaliação para arbitragem da Fifa. </span>
+            <span class="paper-font-body2">Você terá 30 minutos para responder as questões.</span>
+            <span class="paper-font-body2">Após responder as perguntas, clique no botão finalizar para visualizar seu percentual de acerto.</span>
           </paper-material>
         </div>
         <paper-button attr-for-selected="data-route" on-tap="init" raised>Iniciar</paper-button>
@@ -190,7 +183,7 @@
 
   <script>
     (function() {
-      Polymer({
+      QuizTrivia = Polymer({
         is: 'quiz-init',
 
         properties : {
