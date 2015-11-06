@@ -1,0 +1,270 @@
+<dom-module id="quiz-study">
+  <style>
+
+    paper-material {
+      padding: 10px;
+    }
+
+    .header {
+      padding-bottom: 5px;
+      margin: 5px auto;
+    }
+
+    .level {
+      margin: 30px auto;
+    }
+
+    .button {
+      margin: 60px auto;
+    }
+
+    paper-radio-button {
+      display: list-item;
+
+      /* Unchecked state colors. */
+      --paper-radio-button-unchecked-color: black;
+      --paper-radio-button-unchecked-background-color: #fff;
+      --paper-radio-button-unchecked-ink-color: #fff;
+
+      /* Checked state colors. */
+      --paper-radio-button-checked-color: black;
+      --paper-radio-button-checked-ink-color: #FFF;
+
+      --paper-radio-button-label-color: black;
+    }
+
+    paper-button {
+      width: 96%;
+      background-color: var(--default-primary-color);
+      color: #FFF;
+      position: absolute;
+      bottom: 30px;
+    }
+
+    .icon-quiz {
+      width: 50px;
+      height: 50px;
+    }
+
+    .app-icon {
+      margin-left: 5px;
+      width: 50px;
+      height:50px;
+    }
+
+    .titulo {
+      width: 100%;
+      margin: auto;
+      font-size: 25px;
+      margin-left: 25px;
+    }
+
+    paper-icon-button[icon=menu] {
+      margin-left: -30px;
+    }
+
+    #drawerToolbar {
+      color: var(--secondary-text-color);
+      background-color: var(--drawer-menu-color);
+      border-bottom: var(--drawer-toolbar-border-color);
+    }
+
+    paper-material {
+      height: 100%;
+      padding: 16px 0 16px 0;
+      width: calc(98.66% - 16px);
+      margin: 16px auto;
+      background: white;
+    }
+
+    paper-menu iron-icon {
+      margin-right: 33px;
+      opacity: 0.54;
+    }
+
+    .paper-menu > .iron-selected {
+      color: var(--default-primary-color);
+    }
+
+    paper-menu a {
+      text-decoration: none;
+      color: var(--menu-link-color);
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-direction: row;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      font-family: 'Roboto', 'Noto', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 24px;
+      min-height: 48px;
+      padding: 0 16px;
+    }
+
+    paper-toolbar.title .app-name {
+      font-size: 25px;
+      padding-bottom: 0;
+    }
+
+    #mainToolbar .middle-container  {
+      margin-left: 12px;
+    }
+
+    #mainToolbar .bottom {
+      margin-left: 12px;
+    }
+
+    /* Height of the scroll area */
+    .content {
+      height: 100%;
+    }
+
+  </style>
+
+
+  <template>
+    <paper-drawer-panel id="paperDrawerPanel">
+      <!-- Drawer Scroll Header Panel -->
+      <paper-scroll-header-panel drawer fixed>
+        <!-- Drawer Toolbar -->
+        <paper-toolbar id="drawerToolbar">
+          <span class="paper-font-title">Menu</span>
+        </paper-toolbar>
+
+        <!-- Drawer Content -->
+        <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
+          <a data-route="home" href="/">
+            <iron-icon icon="home"></iron-icon>
+            <span>Início</span>
+          </a>
+          <a data-route="scores" href="/scores">
+            <iron-icon icon="assessment"></iron-icon>
+            <span>Resultados</span>
+          </a>
+        </paper-menu>
+      </paper-scroll-header-panel>
+
+      <!-- Main Area -->
+      <paper-header-panel main condenses keep-condensed-header>
+
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar" class="title">
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+          <span class="flex"></span>
+
+          <!-- Application name -->
+          <div class="middle middle-container center horizontal layout">
+            <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+            <div class="titulo">TRÍVIA</div>
+          </div>
+
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <div class="content">
+          <paper-material elevation="0">
+            <div class="header">
+              <h1> Regras </h1>
+            </div>
+            <span class="paper-font-body2">Regras de jogo de futebol conforme consta no livro oficial da FIFA distribuído aos juízes brasileiros, autorizado pela International Football Association Board (IFAB).</span>
+            <div class="level">
+              <h3 class="paper-font-body2">Escolha uma das regras:</h3>
+
+              <paper-radio-group selected="{{rule}}">
+                <paper-radio-button name="1">Regra 1: O campo de jogo / Regra 2: A bola</paper-radio-button>
+                <paper-radio-button name="3">Regra 3: O número de jogadores</paper-radio-button>
+                <paper-radio-button name="4">Regra 4: O equipamento dos jogadores</paper-radio-button>
+                <paper-radio-button name="5">Regra 5: O árbitro</paper-radio-button>
+                <paper-radio-button name="6">Regra 6: Os árbitros assistentes</paper-radio-button>
+                <paper-radio-button name="7">Regra 7: A duração da partida</paper-radio-button>
+                <paper-radio-button name="9">Regra 9: Bola em jogo e fora de jogo</paper-radio-button>
+                <paper-radio-button name="11">Regra 11: O impedimento</paper-radio-button>
+                <paper-radio-button name="12">Regra 12: As faltas e Incorreções</paper-radio-button>
+                <paper-radio-button name="13">Regra 13: Os tiros livres</paper-radio-button>
+                <paper-radio-button name="14">Regra 14: O tiro penal</paper-radio-button>
+                <paper-radio-button name="15">Regra 15: O arremesso lateral</paper-radio-button>
+              </paper-radio-group>
+            </div>
+          </paper-material>
+        </div>
+        <paper-button attr-for-selected="data-route" on-tap="select" raised>Iniciar</paper-button>
+      </paper-header-panel>
+    </paper-drawer-panel>
+  </template>
+
+
+  <script>
+    (function() {
+      QuizStudy = Polymer({
+        is: 'quiz-study',
+
+        properties : {
+          level : {
+            type : String,
+            value : ""
+          },
+          rule: {
+            type: String,
+            value: ""
+          }
+        },
+
+        select: function() {
+          this.getQuestions();
+        },
+
+        getQuestions: function() {
+          var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+          var seed = (Math.random() + 1) * 1111111;
+          var whereLevel = this.level === "" ? "" : 'WHERE LEVEL ="' + this.level + '"';
+          var whereRule = this.rule === "" ? "" : ' AND REGRA ="' + this.rule + '"';
+
+          var select = 'SELECT * FROM PERGUNTA ' + whereLevel + whereRule+ ' ORDER BY ROWID * ? % 10000;';
+
+          db.transaction(
+            $.proxy(function (transaction) {
+              transaction.executeSql(select, [seed], $.proxy(this.dataHandler, this), $.proxy(this.errorHandler), this);
+            },this)
+          );
+        },
+
+        errorHandler: function (transaction, error) {
+          console.log('Oops.  Error was '+error.message+' (Code '+error.code+')');
+          var we_think_this_error_is_fatal = true;
+          if (we_think_this_error_is_fatal) { return true; }
+          return false;
+        },
+
+        dataHandler: function (transaction, results) {
+          var quizPlay = new QuizPlay();
+          var questions = [];
+          for (var i=0; i<results.rows.length; i++) {
+            var question = results.rows.item(i);
+            questions.push(question);
+          }
+
+          var pages = document.querySelector('iron-pages');
+          Polymer.dom(document.getElementById('route-quiz')).appendChild(quizPlay);
+          quizPlay.questions = questions;
+
+//          app.route = 'trivia-quiz'; CRIAR NOVA PÁGINA DE PERGUNTAS
+        },
+
+        onMenuSelect: function() {
+          var drawerPanel = document.querySelector('#paperDrawerPanel');
+          if (drawerPanel.narrow) {
+            drawerPanel.closeDrawer();
+          }
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

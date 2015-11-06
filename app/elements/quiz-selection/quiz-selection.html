@@ -1,0 +1,241 @@
+<dom-module id="quiz-selection">
+  <style>
+
+    paper-material {
+      padding: 10px;
+    }
+
+    .header {
+      padding-bottom: 5px;
+      margin: 5px auto;
+    }
+
+    .level {
+      margin: 30px auto;
+    }
+
+    .button {
+      margin: 60px auto;
+    }
+
+    paper-radio-button {
+      display: inline;
+
+      /* Unchecked state colors. */
+      --paper-radio-button-unchecked-color: black;
+      --paper-radio-button-unchecked-background-color: #fff;
+      --paper-radio-button-unchecked-ink-color: #fff;
+
+      /* Checked state colors. */
+      --paper-radio-button-checked-color: black;
+      --paper-radio-button-checked-ink-color: #FFF;
+
+      --paper-radio-button-label-color: black;
+    }
+
+    paper-button {
+      width: 96%;
+      background-color: var(--default-primary-color);
+      color: #FFF;
+      position: absolute;
+      bottom: 30px;
+    }
+
+    .icon-quiz {
+      width: 50px;
+      height: 50px;
+    }
+
+    .app-icon {
+      margin-left: 5px;
+      width: 50px;
+      height:50px;
+    }
+
+    .titulo {
+      width: 100%;
+      margin: auto;
+      font-size: 25px;
+      margin-left: 25px;
+    }
+
+    paper-icon-button[icon=menu] {
+      margin-left: -30px;
+    }
+
+    #drawerToolbar {
+      color: var(--secondary-text-color);
+      background-color: var(--drawer-menu-color);
+      border-bottom: var(--drawer-toolbar-border-color);
+    }
+
+    paper-material {
+      height: 100%;
+      padding: 16px 0 16px 0;
+      width: calc(98.66% - 16px);
+      margin: 16px auto;
+      background: white;
+    }
+
+    paper-menu iron-icon {
+      margin-right: 33px;
+      opacity: 0.54;
+    }
+
+    .paper-menu > .iron-selected {
+      color: var(--default-primary-color);
+    }
+
+    paper-menu a {
+      text-decoration: none;
+      color: var(--menu-link-color);
+      display: -ms-flexbox;
+      display: -webkit-flex;
+      display: flex;
+      -ms-flex-direction: row;
+      -webkit-flex-direction: row;
+      flex-direction: row;
+      -ms-flex-align: center;
+      -webkit-align-items: center;
+      align-items: center;
+      font-family: 'Roboto', 'Noto', sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 24px;
+      min-height: 48px;
+      padding: 0 16px;
+    }
+
+    paper-toolbar.title .app-name {
+      font-size: 25px;
+      padding-bottom: 0;
+    }
+
+    #mainToolbar .middle-container  {
+      margin-left: 12px;
+    }
+
+    #mainToolbar .bottom {
+      margin-left: 12px;
+    }
+
+    /* Height of the scroll area */
+    .content {
+      height: 100%;
+    }
+
+  </style>
+  <template>
+    <paper-drawer-panel id="paperDrawerPanel">
+      <!-- Drawer Scroll Header Panel -->
+      <paper-scroll-header-panel drawer fixed>
+        <!-- Drawer Toolbar -->
+        <paper-toolbar id="drawerToolbar">
+          <span class="paper-font-title">Menu</span>
+        </paper-toolbar>
+
+        <!-- Drawer Content -->
+        <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
+          <a data-route="scores" href="/scores">
+            <iron-icon icon="assessment"></iron-icon>
+            <span>Resultados</span>
+          </a>
+          <a data-route="" href="">
+            <iron-icon icon="assessment"></iron-icon>
+            <span>Sobre</span>
+          </a>
+        </paper-menu>
+      </paper-scroll-header-panel>
+
+      <!-- Main Area -->
+      <paper-header-panel main condenses keep-condensed-header>
+
+        <!-- Main Toolbar -->
+        <paper-toolbar id="mainToolbar" class="title">
+          <paper-icon-button id="paperToggle" icon="menu" paper-drawer-toggle></paper-icon-button>
+          <span class="flex"></span>
+
+          <!-- Application name -->
+          <div class="middle middle-container center horizontal layout">
+            <div class="app-icon"><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
+            <div class="titulo">TRÍVIA ARBITRAGEM</div>
+          </div>
+
+        </paper-toolbar>
+
+        <!-- Main Content -->
+        <div class="content">
+          <paper-material elevation="0">
+            <span class="paper-font-body2">Aplicativo dispõe duas opções, "Trívia" para estudos das regras e o "Trívia Quiz" para simular desafio.</span>
+          </paper-material>
+
+          <div class="content">
+            <paper-material elevation="0">
+              <div class="level">
+                <h3 class="paper-font-body2">Escolha o nível do teste:</h3>
+
+                <paper-radio-group selected="{{levelSelected}}">
+                  <paper-radio-button name="F">Fácil</paper-radio-button>
+                  <paper-radio-button name="D">Dificil</paper-radio-button>
+                  <paper-radio-button name="">Aleatório</paper-radio-button>
+                </paper-radio-group>
+              </div>
+            </paper-material>
+          </div>
+
+          <paper-material elevation="0">
+            <div class="level">
+              <paper-button attr-for-selected="data-route" on-tap="study" raised>Trívia</paper-button>
+            </div>
+          </paper-material>
+
+          <paper-material elevation="0">
+            <div class="level">
+              <paper-button attr-for-selected="data-route" on-tap="quiz" raised>Trívia Quiz</paper-button>
+            </div>
+          </paper-material>
+        </div>
+
+      </paper-header-panel>
+    </paper-drawer-panel>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'quiz-selection',
+
+        properties : {
+          levelSelected : {
+            type : String,
+            value : ""
+          }
+        },
+
+        study: function() {
+          var quizStudy = new QuizStudy();
+          quizStudy.level = this.levelSelected;
+          Polymer.dom(document.getElementById('route-study')).appendChild(quizStudy);
+          app.route = 'trivia-study';
+        },
+
+        quiz: function() {
+          var quizTrivia = new QuizTrivia();
+          quizTrivia.level = this.levelSelected;
+          Polymer.dom(document.getElementById('route-trivia')).appendChild(quizTrivia);
+          app.route = 'trivia-quiz';
+        },
+
+        onMenuSelect: function() {
+          var drawerPanel = document.querySelector('#paperDrawerPanel');
+          if (drawerPanel.narrow) {
+            drawerPanel.closeDrawer();
+          }
+        }
+      });
+    })();
+  </script>
+
+</dom-module>
