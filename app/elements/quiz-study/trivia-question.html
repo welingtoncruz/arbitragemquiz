@@ -1,0 +1,164 @@
+<dom-module id="trivia-question">
+  <style is="custom-style">
+    paper-radio-button {
+      display: block;
+      margin-left: 5px;
+      margin-right: 5px;
+      margin-top: 5px;
+
+      /* Unchecked state colors. */
+      --paper-radio-button-unchecked-color: black;
+      --paper-radio-button-unchecked-background-color: #fff;
+      --paper-radio-button-unchecked-ink-color: #fff;
+
+      /* Checked state colors. */
+      --paper-radio-button-checked-color: black;
+      --paper-radio-button-checked-ink-color: #FFF;
+
+      --paper-radio-button-label-color: black;
+    }
+
+    .question {
+      height: 130px;
+      width: 100%;
+      background-color: #eee;
+      font-size: 14px;
+      line-height: 100px;
+      text-align: center;
+    }
+    .content {
+      margin-top: 10px;
+      font-size: 12px;
+      height: 290px;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    .count {
+      width: 78%;
+      text-align: center;
+      margin: auto;
+      font-size: 30px;
+      border-radius: 50px;
+      overflow: hidden;
+    }
+
+    .top {
+      margin: auto;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    ::-webkit-scrollbar {
+      width: 1px;
+    }
+    ::-webkit-scrollbar-button {
+      width: 1px;
+      height:5px;
+    }
+    ::-webkit-scrollbar-track {
+    }
+    ::-webkit-scrollbar-thumb {
+      background:#999;
+      border: thin solid #999;
+      border-radius:10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background:#7d7d7d;
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: middle;
+      line-height: normal;
+    }
+
+  </style>
+  <template>
+    <div class="question"> <span style="margin: auto">{{question.DESCRICAO}}</span></div>
+    <div class="content" id="style-4">
+        <paper-radio-group selected="{{answer}}">
+          <template is="dom-repeat" items="{{question.alternatives}}">
+            <paper-radio-button name="{{item}}">{{item.DESCRICAO}}</paper-radio-button>
+          </template>
+        </paper-radio-group>
+     </div>
+  </template>
+
+  <script>
+    (function() {
+      Polymer({
+        is: 'trivia-question',
+        properties: {
+          question: {
+            type: Object,
+            notify: true
+          },
+
+          carregouAlternativas: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
+          answer: {
+            type: Object,
+            notify: true
+          }
+        },
+
+        observers: [
+          'change(carregouAlternativas)',
+          'changeAnswer(answer)'
+        ],
+
+        change: function(changeRecord) {
+          if (changeRecord === 1) {
+            $('quiz-question template').each(
+              function (i, e) {
+                e.items = this.parentElement.parentElement.parentElement.question.alternatives;
+              });
+          }
+        },
+
+        changeAnswer: function(changeRecord) {
+          if (changeRecord) {
+            this.question.answer = this.answer;
+          }
+        },
+
+        ready: function() {
+          var seed = (Math.random() + 1) * 1111111;
+          var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+          var whereQuestion = 'where PERGUNTA_ID = '+ this.question.ID;
+          var select = 'SELECT * FROM ALTERNATIVA ' +whereQuestion+' ORDER BY ROWID * ? % 10000;';
+          db.transaction(
+            $.proxy(function (transaction) {
+              transaction.executeSql(select,
+                [seed],
+                $.proxy(this.dataHandler, this),
+                $.proxy(this.errorHandler, this));
+            }, this)
+          );
+        },
+
+        dataHandler: function (tx, results) {
+          var alternatives = [];
+          for (var i=0; i<results.rows.length; i++) {
+            var alternativa = results.rows.item(i);
+            alternatives.push(alternativa);
+          }
+          this.question.alternatives = alternatives;
+          this.carregouAlternativas = 1;
+        },
+
+        errorHandler: function (transaction, error) {
+          console.log('Oops.  Error was '+error.message+' (Code '+error.code+')');
+          var we_think_this_error_is_fatal = true;
+          if (we_think_this_error_is_fatal) { return true; }
+          return false;
+        }
+      });
+    })();
+  </script>
+
+</dom-module>

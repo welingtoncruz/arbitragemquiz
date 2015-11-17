@@ -72,7 +72,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     </section>
 
     <section id="route-study" data-route="trivia-study">
-      <quiz-study></quiz-study>
     </section>
 
     <section data-route="scores">
@@ -80,10 +79,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <quiz-scores></quiz-scores>
       </template>
     </section>
-    <section data-route="quiz-study">
-      <template is="dom-if" if="{{isEqual(route, 'quiz-study')}}" restamp="true">
-        <quiz-study></quiz-study>
-      </template>
+    <section id="quiz-study" data-route="study">
     </section>
 
     <section id="route-quiz" data-route="quiz">

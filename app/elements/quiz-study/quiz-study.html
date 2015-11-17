@@ -121,9 +121,30 @@
       margin-left: 12px;
     }
 
-    /* Height of the scroll area */
     .content {
-      height: 100%;
+      margin-top: 10px;
+      font-size: 12px;
+      height: 500px;
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    ::-webkit-scrollbar {
+      width: 1px;
+    }
+    ::-webkit-scrollbar-button {
+      width: 1px;
+      height:5px;
+    }
+    ::-webkit-scrollbar-track {
+    }
+    ::-webkit-scrollbar-thumb {
+      background:#999;
+      border: thin solid #999;
+      border-radius:10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background:#7d7d7d;
     }
 
   </style>
@@ -143,10 +164,6 @@
           <a data-route="home" href="/">
             <iron-icon icon="home"></iron-icon>
             <span>Início</span>
-          </a>
-          <a data-route="scores" href="/scores">
-            <iron-icon icon="assessment"></iron-icon>
-            <span>Resultados</span>
           </a>
         </paper-menu>
       </paper-scroll-header-panel>
@@ -168,32 +185,33 @@
         </paper-toolbar>
 
         <!-- Main Content -->
-        <div class="content">
-          <paper-material elevation="0">
-            <div class="header">
-              <h1> Regras </h1>
-            </div>
-            <span class="paper-font-body2">Regras de jogo de futebol conforme consta no livro oficial da FIFA distribuído aos juízes brasileiros, autorizado pela International Football Association Board (IFAB).</span>
-            <div class="level">
-              <h3 class="paper-font-body2">Escolha uma das regras:</h3>
-
-              <paper-radio-group selected="{{rule}}">
-                <paper-radio-button name="1">Regra 1: O campo de jogo / Regra 2: A bola</paper-radio-button>
-                <paper-radio-button name="3">Regra 3: O número de jogadores</paper-radio-button>
-                <paper-radio-button name="4">Regra 4: O equipamento dos jogadores</paper-radio-button>
-                <paper-radio-button name="5">Regra 5: O árbitro</paper-radio-button>
-                <paper-radio-button name="6">Regra 6: Os árbitros assistentes</paper-radio-button>
-                <paper-radio-button name="7">Regra 7: A duração da partida</paper-radio-button>
-                <paper-radio-button name="9">Regra 9: Bola em jogo e fora de jogo</paper-radio-button>
-                <paper-radio-button name="11">Regra 11: O impedimento</paper-radio-button>
-                <paper-radio-button name="12">Regra 12: As faltas e Incorreções</paper-radio-button>
-                <paper-radio-button name="13">Regra 13: Os tiros livres</paper-radio-button>
-                <paper-radio-button name="14">Regra 14: O tiro penal</paper-radio-button>
-                <paper-radio-button name="15">Regra 15: O arremesso lateral</paper-radio-button>
-              </paper-radio-group>
-            </div>
-          </paper-material>
-        </div>
+        <div style="width: 100%;">
+          <div class="content" id="style-4">
+            <paper-material elevation="0">
+              <div class="header">
+                <h1> Regras </h1>
+              </div>
+              <span class="paper-font-body2">Regras de jogo de futebol conforme consta no livro oficial da FIFA distribuído aos juízes brasileiros, autorizado pela International Football Association Board (IFAB).</span>
+              <div class="level">
+                <h3 class="paper-font-body2">Escolha uma das regras:</h3>
+                <paper-radio-group selected="{{rule}}">
+                  <paper-radio-button name="1">Regra 1: O campo de jogo / Regra 2: A bola</paper-radio-button>
+                  <paper-radio-button name="3">Regra 3: O número de jogadores</paper-radio-button>
+                  <paper-radio-button name="4">Regra 4: O equipamento dos jogadores</paper-radio-button>
+                  <paper-radio-button name="5">Regra 5: O árbitro</paper-radio-button>
+                  <paper-radio-button name="6">Regra 6: Os árbitros assistentes</paper-radio-button>
+                  <paper-radio-button name="7">Regra 7: A duração da partida</paper-radio-button>
+                  <paper-radio-button name="9">Regra 9: Bola em jogo e fora de jogo</paper-radio-button>
+                  <paper-radio-button name="11">Regra 11: O impedimento</paper-radio-button>
+                  <paper-radio-button name="12">Regra 12: As faltas e Incorreções</paper-radio-button>
+                  <paper-radio-button name="13">Regra 13: Os tiros livres</paper-radio-button>
+                  <paper-radio-button name="14">Regra 14: O tiro penal</paper-radio-button>
+                  <paper-radio-button name="15">Regra 15: O arremesso lateral</paper-radio-button>
+                </paper-radio-group>
+              </div>
+            </paper-material>
+          </div>
+        </div>    
         <paper-button attr-for-selected="data-route" on-tap="select" raised>Iniciar</paper-button>
       </paper-header-panel>
     </paper-drawer-panel>
@@ -206,13 +224,9 @@
         is: 'quiz-study',
 
         properties : {
-          level : {
-            type : String,
-            value : ""
-          },
           rule: {
             type: String,
-            value: ""
+            value: "1"
           }
         },
 
@@ -223,10 +237,12 @@
         getQuestions: function() {
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           var seed = (Math.random() + 1) * 1111111;
-          var whereLevel = this.level === "" ? "" : 'WHERE LEVEL ="' + this.level + '"';
-          var whereRule = this.rule === "" ? "" : ' AND REGRA ="' + this.rule + '"';
+          var where = "";
+          var where = where + this.level !== "" ? ' WHERE LEVEL ="' + this.level + '"';
+          var where += where + this.rule !== "" && this.whereLevel !== "" ? " AND " : " WHERE ";
+          var where += where + ' REGRA ="' + this.rule + '"'; 
 
-          var select = 'SELECT * FROM PERGUNTA ' + whereLevel + whereRule+ ' ORDER BY ROWID * ? % 10000;';
+          var select = 'SELECT * FROM PERGUNTA ' + where+ ' ORDER BY ROWID * ? % 10000;';
 
           db.transaction(
             $.proxy(function (transaction) {
@@ -243,7 +259,7 @@
         },
 
         dataHandler: function (transaction, results) {
-          var quizPlay = new QuizPlay();
+          var triviaPlay = new TriviaPlay();
           var questions = [];
           for (var i=0; i<results.rows.length; i++) {
             var question = results.rows.item(i);
@@ -251,10 +267,10 @@
           }
 
           var pages = document.querySelector('iron-pages');
-          Polymer.dom(document.getElementById('route-quiz')).appendChild(quizPlay);
-          quizPlay.questions = questions;
+          Polymer.dom(document.getElementById('quiz-study')).appendChild(triviaPlay);
+          triviaPlay.questions = questions;
 
-//          app.route = 'trivia-quiz'; CRIAR NOVA PÁGINA DE PERGUNTAS
+          app.route = 'study';
         },
 
         onMenuSelect: function() {
