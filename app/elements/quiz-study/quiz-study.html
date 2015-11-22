@@ -211,7 +211,7 @@
               </div>
             </paper-material>
           </div>
-        </div>    
+        </div>
         <paper-button attr-for-selected="data-route" on-tap="select" raised>Iniciar</paper-button>
       </paper-header-panel>
     </paper-drawer-panel>
@@ -238,9 +238,9 @@
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           var seed = (Math.random() + 1) * 1111111;
           var where = "";
-          var where = where + this.level !== "" ? ' WHERE LEVEL ="' + this.level + '"';
-          var where += where + this.rule !== "" && this.whereLevel !== "" ? " AND " : " WHERE ";
-          var where += where + ' REGRA ="' + this.rule + '"'; 
+          where = where + this.level !== "" ? ' WHERE LEVEL ="' + this.level + '"' : "";
+          var conditional = this.rule !== "" && this.level !== "" ? " AND " : " WHERE ";
+          where = where + conditional + ' REGRA ="' + this.rule + '"';
 
           var select = 'SELECT * FROM PERGUNTA ' + where+ ' ORDER BY ROWID * ? % 10000;';
 

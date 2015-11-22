@@ -113,7 +113,7 @@
 
         change: function(changeRecord) {
           if (changeRecord === 1) {
-            $('quiz-question template').each(
+            $('trivia-question template').each(
               function (i, e) {
                 e.items = this.parentElement.parentElement.parentElement.question.alternatives;
               });
