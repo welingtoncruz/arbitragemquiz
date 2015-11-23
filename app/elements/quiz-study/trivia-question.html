@@ -88,7 +88,7 @@
       background-color: #003366;
       position: absolute;
       left: 44%;
-      top: 26%;
+      top: 162px;
     }
 
   </style>
@@ -96,9 +96,9 @@
     <div class="question"> <span style="margin: auto">{{question.DESCRICAO}}</span></div>
     <paper-fab class="validator" mini icon="check" on-tap="valida" disabled="{{respondida}}"></paper-fab>
     <div class="content" id="style-4">
-        <paper-radio-group selected="{{answer}}">
+        <paper-radio-group style="width: 100%" selected="{{answer}}">
           <template is="dom-repeat" items="{{question.alternatives}}">
-            <paper-radio-button name="{{item}}">{{item.DESCRICAO}}</paper-radio-button>
+            <paper-radio-button id="{{item.ID}}" name="{{item}}" disabled="{{respondida}}">{{item.DESCRICAO}}</paper-radio-button>
           </template>
         </paper-radio-group>
      </div>
@@ -132,7 +132,8 @@
           },
           respondida: {
             type: Boolean,
-            value: false
+            value: false,
+            notify: true
           }
 
         },
@@ -154,22 +155,6 @@
         changeAnswer: function(changeRecord) {
           if (changeRecord) {
             this.question.answer = this.answer;
-          }
-        },
-
-        getClass: function(item) {
-          if (!this.respondida) {
-            return "texto";
-          }
-
-          if (item.checked) {
-            if (item.CORRETA === "true") {
-              return "acertou";
-            } else {
-              return "errou";
-            }
-          } else if (item.CORRETA === "true") {
-            return "acertou";
           }
         },
 
@@ -212,18 +197,26 @@
             return;
           }
 
-          this.customStyle['--my-toolbar-color'] = 'blue';
-          this.updateStyles();
-
           if (answer) {
             if (answer.CORRETA === "true") {
               this.acertos += 1;
-
             } else {
               this.erros += 1;
+              document.getElementById(answer.ID).style.backgroundColor = "#FB0606";
+            }
+
+            var alternativa;
+            for (var i=0; i<this.question.alternatives.length; i++) {
+              alternativa = this.question.alternatives[i];
+              if (alternativa.CORRETA === "true") {
+                var idCorreta = alternativa.ID;
+                document.getElementById(idCorreta).style.backgroundColor = "#03EC6B";
+                continue;
+              }
             }
             this.respondida = true;
           }
+          this.updateStyles();
         }
 
       });

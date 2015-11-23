@@ -33,7 +33,7 @@
       --paper-radio-button-label-color: black;
     }
 
-    paper-button {
+    .paper-button {
       width: 96%;
       background-color: var(--default-primary-color);
       color: #FFF;
@@ -138,14 +138,9 @@
 
         <!-- Drawer Content -->
         <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
-          <a data-route="home" href="/">
-            <iron-icon icon="home"></iron-icon>
-            <span>Início</span>
-          </a>
-          <a data-route="scores" href="/scores">
-            <iron-icon icon="assessment"></iron-icon>
-            <span>Resultados</span>
-          </a>
+          <paper-button attr-for-selected="data-route" on-tap="finish">
+            <iron-icon icon="home"></iron-icon>Início
+          </paper-button>
         </paper-menu>
       </paper-scroll-header-panel>
 
@@ -176,7 +171,7 @@
             <span class="paper-font-body2">Após responder as perguntas, clique no botão finalizar para visualizar seu percentual de acerto.</span>
           </paper-material>
         </div>
-        <paper-button attr-for-selected="data-route" on-tap="init" raised>Iniciar</paper-button>
+        <paper-button class="paper-button" attr-for-selected="data-route" on-tap="init" raised>Iniciar</paper-button>
       </paper-header-panel>
     </paper-drawer-panel>
   </template>
@@ -236,6 +231,15 @@
           if (drawerPanel.narrow) {
             drawerPanel.closeDrawer();
           }
+        },
+
+        finish: function() {
+          app.route = 'home';
+          this.destroyQuiz();
+        },
+
+        destroyQuiz: function() {
+          Polymer.dom(document.getElementById('route-trivia')).removeChild(this);
         }
       });
     })();

@@ -33,7 +33,7 @@
       --paper-radio-button-label-color: black;
     }
 
-    paper-button {
+    .paper-button {
       width: 96%;
       background-color: var(--default-primary-color);
       color: #FFF;
@@ -161,10 +161,9 @@
 
         <!-- Drawer Content -->
         <paper-menu class="list" attr-for-selected="data-route" selected="{{route}}" on-iron-select="onMenuSelect">
-          <a data-route="home" href="/">
-            <iron-icon icon="home"></iron-icon>
-            <span>Início</span>
-          </a>
+          <paper-button attr-for-selected="data-route" on-tap="finish">
+            <iron-icon icon="home"></iron-icon>Início
+          </paper-button>
         </paper-menu>
       </paper-scroll-header-panel>
 
@@ -212,7 +211,7 @@
             </paper-material>
           </div>
         </div>
-        <paper-button attr-for-selected="data-route" on-tap="select" raised>Iniciar</paper-button>
+        <paper-button class="paper-button" attr-for-selected="data-route" on-tap="select" raised>Iniciar</paper-button>
       </paper-header-panel>
     </paper-drawer-panel>
   </template>
@@ -278,6 +277,15 @@
           if (drawerPanel.narrow) {
             drawerPanel.closeDrawer();
           }
+        },
+
+        finish: function() {
+          app.route = 'home';
+          this.destroyQuiz();
+        },
+
+        destroyQuiz: function() {
+          Polymer.dom(document.getElementById('route-study')).removeChild(this);
         }
       });
     })();

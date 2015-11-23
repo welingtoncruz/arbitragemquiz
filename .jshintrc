@@ -28,6 +28,9 @@
     "MY_LIB": false,
     "QuizPlay": true,
     "QuizFinish": true,
-    "QuizLoading": true
+    "QuizLoading": true,
+    "QuizStudy": true,
+    "QuizTrivia": true,
+    "TriviaPlay": true
   }
 }

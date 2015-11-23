@@ -63,7 +63,7 @@
     }
 
     .acerto {
-      background-color: #008800;
+      background-color: #03EC6B;
     }
 
     .contador {
@@ -80,7 +80,7 @@
     }
 
     .erro {
-      background-color: #880000;
+      background-color: #FB0606;
     }
 
   </style>
@@ -92,8 +92,8 @@
           <div flex class="count"><b>{{questionNumber}}</b>/<b>{{questions.length}}</b></div>
           <div flex>
             <div class="contador horizontal layout">
-              <div class="acerto placar">{{acertos}}</div>
-              <div class="erro placar">{{erros}}</div>
+              <div class="acerto placar vertical layout">{{acertos}}<span style="font-size: 10px;">acertos</span></div>
+              <div class="erro placar vertical layout">{{erros}}<span style="font-size: 10px;">erros</span></div>
             </div>
           </div>
         </div>
@@ -154,38 +154,13 @@
           this.questionNumber = (this.questionNumber + 1 > this.questions.length) ? 1 : this.questionNumber + 1;
         },
 
-        mudou: function(e) {
-          console.log(e.target);
-        },
-
         finish: function() {
-          var result = 0;
-
-          for (var i=0; i< this.questions.length; i++) {
-            var question = this.questions[i];
-            var answer = question.answer;
-
-            if (answer) {
-              if (answer.CORRETA === "true") {
-                result += 1;
-              }
-            }
-          }
-
-          var totalResult = (result/this.questions.length)*100;
-          var quizFinish = new QuizFinish();
-          quizFinish.resultQuiz = totalResult;
-
-          var pages = document.querySelector('iron-pages');
-          Polymer.dom(document.getElementById('route-finish')).appendChild(quizFinish);
-
-          app.route = 'finish';
-
+          app.route = 'home';
           this.destroyQuiz();
         },
 
         destroyQuiz: function() {
-          Polymer.dom(document.getElementById('route-quiz')).removeChild(this);
+          Polymer.dom(document.getElementById('quiz-study')).removeChild(this);
         }
       });
     })();
