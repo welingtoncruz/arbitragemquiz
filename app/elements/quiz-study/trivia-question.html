@@ -15,7 +15,18 @@
       --paper-radio-button-checked-color: black;
       --paper-radio-button-checked-ink-color: #FFF;
 
+    }
+
+    .texto {
       --paper-radio-button-label-color: black;
+    }
+
+    .acertou {
+      --paper-radio-button-label-color: green;
+    }
+
+    .errou {
+      --paper-radio-button-label-color: red;
     }
 
     .question {
@@ -73,9 +84,17 @@
       line-height: normal;
     }
 
+    .validator {
+      background-color: #003366;
+      position: absolute;
+      left: 44%;
+      top: 26%;
+    }
+
   </style>
   <template>
     <div class="question"> <span style="margin: auto">{{question.DESCRICAO}}</span></div>
+    <paper-fab class="validator" mini icon="check" on-tap="valida" disabled="{{respondida}}"></paper-fab>
     <div class="content" id="style-4">
         <paper-radio-group selected="{{answer}}">
           <template is="dom-repeat" items="{{question.alternatives}}">
@@ -94,7 +113,6 @@
             type: Object,
             notify: true
           },
-
           carregouAlternativas: {
             type: Number,
             value: 0,
@@ -103,7 +121,20 @@
           answer: {
             type: Object,
             notify: true
+          },
+          acertos: {
+            type: Number,
+            notify: true
+          },
+          erros: {
+            type: Number,
+            notify: true
+          },
+          respondida: {
+            type: Boolean,
+            value: false
           }
+
         },
 
         observers: [
@@ -123,6 +154,22 @@
         changeAnswer: function(changeRecord) {
           if (changeRecord) {
             this.question.answer = this.answer;
+          }
+        },
+
+        getClass: function(item) {
+          if (!this.respondida) {
+            return "texto";
+          }
+
+          if (item.checked) {
+            if (item.CORRETA === "true") {
+              return "acertou";
+            } else {
+              return "errou";
+            }
+          } else if (item.CORRETA === "true") {
+            return "acertou";
           }
         },
 
@@ -156,7 +203,29 @@
           var we_think_this_error_is_fatal = true;
           if (we_think_this_error_is_fatal) { return true; }
           return false;
+        },
+
+        valida: function () {
+          var answer = this.question.answer;
+
+          if(this.respondida) {
+            return;
+          }
+
+          this.customStyle['--my-toolbar-color'] = 'blue';
+          this.updateStyles();
+
+          if (answer) {
+            if (answer.CORRETA === "true") {
+              this.acertos += 1;
+
+            } else {
+              this.erros += 1;
+            }
+            this.respondida = true;
+          }
         }
+
       });
     })();
   </script>

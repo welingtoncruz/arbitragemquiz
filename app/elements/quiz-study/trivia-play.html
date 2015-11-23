@@ -34,14 +34,6 @@
       height: 50px;
     }
 
-    .bola-futebol {
-      background-image: url("../../images/bola-futebol.png");
-      height: 55px;
-      width: 55px;
-      background-repeat:no-repeat;
-      background-size:contain;
-    }
-
     ninja-countdown {
       position: absolute;
       margin-top: 17px;
@@ -70,6 +62,27 @@
       right: 10px;
     }
 
+    .acerto {
+      background-color: #008800;
+    }
+
+    .contador {
+      margin: 3px;
+    }
+
+    .placar {
+      font-size: 32px;
+      font-weight: bold;
+      width: 40px;
+      height: 50px;
+      text-align: center;
+      margin: auto;
+    }
+
+    .erro {
+      background-color: #880000;
+    }
+
   </style>
   <template>
       <!-- Application name -->
@@ -78,8 +91,9 @@
           <div flex><iron-icon class="icon-quiz" src="../../images/touch/chrome-touch-icon-192x192.png"></iron-icon></div>
           <div flex class="count"><b>{{questionNumber}}</b>/<b>{{questions.length}}</b></div>
           <div flex>
-            <div class="bola-futebol">
-              
+            <div class="contador horizontal layout">
+              <div class="acerto placar">{{acertos}}</div>
+              <div class="erro placar">{{erros}}</div>
             </div>
           </div>
         </div>
@@ -89,7 +103,7 @@
     <div class="content">
       <iron-pages id="page-question" selected="0">
         <template is="dom-repeat" items="{{questions}}" as="question">
-          <trivia-question question="{{question}}"></trivia-question>
+          <trivia-question question="{{question}}" erros="{{erros}}" acertos="{{acertos}}"></trivia-question>
         </template>
       </iron-pages>
     </div>
@@ -115,6 +129,16 @@
           questionNumber: {
             type: Number,
             value: 1
+          },
+          acertos: {
+            type: Number,
+            value: 0,
+            notify: true
+          },
+          erros: {
+            type: Number,
+            value: 0,
+            notify: true
           }
         },
 
