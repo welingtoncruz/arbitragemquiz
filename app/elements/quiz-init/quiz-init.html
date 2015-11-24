@@ -224,6 +224,7 @@
           Polymer.dom(document.getElementById('route-quiz')).appendChild(quizPlay);
           quizPlay.questions = questions;
           app.route = 'quiz';
+          this.destroyQuiz();
         },
 
         onMenuSelect: function() {

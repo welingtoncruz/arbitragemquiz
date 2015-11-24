@@ -268,8 +268,9 @@
           var pages = document.querySelector('iron-pages');
           Polymer.dom(document.getElementById('quiz-study')).appendChild(triviaPlay);
           triviaPlay.questions = questions;
-
           app.route = 'study';
+
+          this.destroyQuiz();
         },
 
         onMenuSelect: function() {

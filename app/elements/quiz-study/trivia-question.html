@@ -159,14 +159,22 @@
         },
 
         ready: function() {
-          var seed = (Math.random() + 1) * 1111111;
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           var whereQuestion = 'where PERGUNTA_ID = '+ this.question.ID;
-          var select = 'SELECT * FROM ALTERNATIVA ' +whereQuestion+' ORDER BY ROWID * ? % 10000;';
+          var order = 'ORDER BY ID ASC';
+          var seed = [];
+
+          if (this.question.ALEATORIO === 'true') {
+            order = 'ORDER BY ROWID * ? % 10000';
+            seed = [(Math.random() + 1) * 1111111];
+          }
+
+          var select = 'SELECT * FROM ALTERNATIVA '+whereQuestion+ ' '+order+';';
+
           db.transaction(
             $.proxy(function (transaction) {
               transaction.executeSql(select,
-                [seed],
+                seed,
                 $.proxy(this.dataHandler, this),
                 $.proxy(this.errorHandler, this));
             }, this)
