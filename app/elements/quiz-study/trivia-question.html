@@ -94,15 +94,15 @@
   </style>
   <template>
     <div class="question"> <span style="margin: auto">{{question.DESCRICAO}}</span></div>
-    <paper-fab class="validator" mini icon="check" on-tap="valida"></paper-fab>
+    <paper-fab class="validator" mini icon="check" disabled="{{desabilitado}}" on-tap="valida"></paper-fab>
     <div class="content" id="style-4">
         <paper-radio-group style="width: 100%" selected="{{answer}}">
           <template is="dom-repeat" items="{{question.alternatives}}">
-            <paper-radio-button id="{{item.ID}}" name="{{item}}">{{item.DESCRICAO}}</paper-radio-button>
+            <paper-radio-button id="{{item.ID}}" disabled="{{desabilitado}}" name="{{item}}">{{item.DESCRICAO}}</paper-radio-button>
           </template>
         </paper-radio-group>
      </div>
-    <ninja-countdown id="countdowninit" init-secs="2" hidden-hours="true" hidden-mins="true" hidden-secs="true" auto></ninja-countdown>
+    <ninja-countdown id="countdowninit" init-secs="3" hidden-hours="true" hidden-mins="true" hidden-secs="true" auto></ninja-countdown>
   </template>
 
   <script>
@@ -131,11 +131,6 @@
             type: Number,
             notify: true
           },
-          respondida: {
-            type: Boolean,
-            value: false,
-            notify: true
-          },
           desabilitado: {
             type: Boolean,
             value: true,
@@ -148,14 +143,6 @@
           'change(carregouAlternativas)',
           'changeAnswer(answer)'
         ],
-
-        ready: function() {
-          this.$.countdowninit.addEventListener('finished', $.proxy(this.toggle, this));
-        },
-
-        getDisabled : function() {
-          return this.respondida || this.desabilitado;
-        },
 
         toggle: function() {
           this.desabilitado = false;
@@ -177,6 +164,7 @@
         },
 
         ready: function() {
+          this.$.countdowninit.addEventListener('finished', $.proxy(this.toggle, this));
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           var whereQuestion = 'where PERGUNTA_ID = '+ this.question.ID;
           var order = 'ORDER BY ID ASC';
@@ -219,7 +207,7 @@
         valida: function () {
           var answer = this.question.answer;
 
-          if(this.respondida) {
+          if(this.desabilitado) {
             return;
           }
 
@@ -240,7 +228,7 @@
                 continue;
               }
             }
-            this.respondida = true;
+            this.desabilitado = true;
           }
           this.updateStyles();
         }

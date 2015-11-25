@@ -232,7 +232,8 @@
           },
           desabilitado: {
             type: Boolean,
-            value: false
+            value: false,
+            notify: true
           }
         },
 
@@ -271,19 +272,49 @@
         },
 
         dataHandler: function (transaction, results) {
-          var triviaPlay = new TriviaPlay();
           var questions = [];
+          var questionsid = [];
           for (var i=0; i<results.rows.length; i++) {
             var question = results.rows.item(i);
             questions.push(question);
+            questionsid.push(question.ID);
           }
 
-          var pages = document.querySelector('iron-pages');
-          Polymer.dom(document.getElementById('quiz-study')).appendChild(triviaPlay);
-          triviaPlay.questions = questions;
-          app.route = 'study';
+          var questions_id = questionsid.join(',');
 
-          this.destroyQuiz();
+          var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+          var countPromise = this.getAlternativaCount(db, questions_id);
+          $.when(countPromise).done($.proxy(function(count) {
+            this.validaAlternativas(db, count, questions, questions_id);
+          }, this));
+
+        },
+
+        validaAlternativas: function(db, count, questions, questions_id) {
+          var totalAlternativas = questions.length * 4;
+          if (count < totalAlternativas) {
+            var countPromise = this.getAlternativaCount(db, questions_id);
+            $.when(countPromise).done($.proxy(function(count) {
+              this.validaAlternativas(db, count, questions, questions_id);
+            },this));  
+          } else {
+            var triviaPlay = new TriviaPlay();
+            Polymer.dom(document.getElementById('quiz-study')).appendChild(triviaPlay);
+            triviaPlay.questions = questions;
+            app.route = 'study';
+            this.destroyQuiz();
+          } 
+        },
+
+        getAlternativaCount: function (db, questions_id) {
+            var defer = $.Deferred();
+            var count = 0;
+            db.transaction(function(tx) {
+                tx.executeSql('SELECT * FROM ALTERNATIVA where PERGUNTA_ID IN (' + questions_id + ')', [], function(tx, results) {
+                    defer.resolve(results.rows.length);
+                });
+            });
+            return defer.promise();
         },
 
         onMenuSelect: function() {

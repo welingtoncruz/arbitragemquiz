@@ -171,7 +171,8 @@
             <span class="paper-font-body2">Após responder as perguntas, clique no botão finalizar para visualizar seu percentual de acerto.</span>
           </paper-material>
         </div>
-        <paper-button class="paper-button" attr-for-selected="data-route" on-tap="init" raised>Iniciar</paper-button>
+        <paper-spinner id="spinner" alt="Loading" class="red" style="position: absolute; left: 44%; top: 230px;"></paper-spinner>
+        <paper-button class="paper-button" attr-for-selected="data-route" on-tap="init" disabled="{{desabilitado}}" raised>Iniciar</paper-button>
       </paper-header-panel>
     </paper-drawer-panel>
   </template>
@@ -185,10 +186,21 @@
           level : {
             type : String,
             value : ""
+          },
+          desabilitado : { 
+            type:  Boolean,
+            value: false,
+            notify: true
           }
         },
 
+        toggle: function() {
+          this.$.spinner.active = !this.$.spinner.active;
+        },
+
         init: function() {
+          this.desabilitado = true;
+          this.toggle();
           this.getQuestions();
         },
 
@@ -213,19 +225,53 @@
         },
 
         dataHandler: function (transaction, results) {
-          var quizPlay = new QuizPlay();
           var questions = [];
+          var questionsid = [];
           for (var i=0; i<results.rows.length; i++) {
             var question = results.rows.item(i);
             questions.push(question);
+            questionsid.push(question.ID);
           }
 
-          var pages = document.querySelector('iron-pages');
-          Polymer.dom(document.getElementById('route-quiz')).appendChild(quizPlay);
-          quizPlay.questions = questions;
-          app.route = 'quiz';
-          this.destroyQuiz();
+          var questions_id = questionsid.join(',');
+
+          var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+          var countPromise = this.getAlternativaCount(db, questions_id);
+          $.when(countPromise).done($.proxy(function(count) {
+            this.validaAlternativas(db, count, questions, questions_id);
+          }, this));
         },
+
+        validaAlternativas: function(db, count, questions, questions_id) {
+          var totalAlternativas = questions.length * 4;
+          if (count < totalAlternativas) {
+            var countPromise = this.getAlternativaCount(db, questions_id);
+            $.when(countPromise).done($.proxy(function(count) {
+              this.validaAlternativas(db, count, questions, questions_id);
+            },this));  
+          } else {
+            var quizPlay = new QuizPlay();
+            Polymer.dom(document.getElementById('route-quiz')).appendChild(quizPlay);
+            quizPlay.questions = questions;
+            app.route = 'quiz';
+            this.destroyQuiz();
+          } 
+        },
+
+        getAlternativaCount: function (db, questions_id) {
+            var defer = $.Deferred();
+            var count = 0;
+            db.transaction(function(tx) {
+                tx.executeSql('SELECT * FROM ALTERNATIVA where PERGUNTA_ID IN (' + questions_id + ')', [], function(tx, results) {
+                    defer.resolve(results.rows.length);
+                });
+            });
+            return defer.promise();
+        },
+
+
+
+
 
         onMenuSelect: function() {
           var drawerPanel = document.querySelector('#paperDrawerPanel');

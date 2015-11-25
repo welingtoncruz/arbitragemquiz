@@ -142,10 +142,6 @@
             <iron-icon icon="assessment"></iron-icon>
             <span>RESULTADOS</span>
           </a>
-          <a data-route="" href="">
-            <iron-icon icon="assessment"></iron-icon>
-            <span>SOBRE</span>
-          </a>
         </paper-menu>
       </paper-scroll-header-panel>
 
@@ -214,18 +210,60 @@
           }
         },
 
-        study: function() {
+        study_function: function() {
           var quizStudy = new QuizStudy();
           quizStudy.level = this.levelSelected;
           Polymer.dom(document.getElementById('route-study')).appendChild(quizStudy);
           app.route = 'trivia-study';
+        },  
+
+        study: function() {
+          var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+          var countPromise = this.getQuestoesCount(db);
+          $.when(countPromise).done($.proxy(function(count) {
+            this.validaQuestoes(db, count, 'study');
+          }, this));
         },
 
-        quiz: function() {
+        validaQuestoes: function(db, count, funcao) {
+          if (count < 807) {
+            var countPromise = this.getQuestoesCount(db);
+            $.when(countPromise).done($.proxy(function(count) {
+              this.validaQuestoes(db, count, funcao);
+            },this));  
+          } else {
+            if (funcao === 'study') {
+              this.study_function();
+            } else {
+              this.quiz_function();
+            }
+          } 
+        },
+
+        getQuestoesCount: function (db) {
+            var defer = $.Deferred();
+            var count = 0;
+            db.transaction(function(tx) {
+                tx.executeSql('SELECT * FROM PERGUNTA', [], function(tx, results) {
+                    defer.resolve(results.rows.length);
+                });
+            });
+            return defer.promise();
+        },
+
+        quiz_function: function() {
           var quizTrivia = new QuizTrivia();
           quizTrivia.level = this.levelSelected;
           Polymer.dom(document.getElementById('route-trivia')).appendChild(quizTrivia);
           app.route = 'trivia-quiz';
+        },
+
+        quiz: function() {
+          var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
+          var countPromise = this.getQuestoesCount(db);
+          $.when(countPromise).done($.proxy(function(count) {
+            this.validaQuestoes(db, count, 'quiz');
+          }, this));
         },
 
         onMenuSelect: function() {

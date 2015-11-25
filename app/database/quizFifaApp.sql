@@ -8,8 +8,10 @@ CREATE TABLE IF NOT EXISTS SCORES (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL
 
 CREATE TABLE IF NOT EXISTS PERGUNTA (ID INTEGER PRIMARY KEY NOT NULL, DESCRICAO STRING NOT NULL, LEVEL CHAR (1, 1) NOT NULL, REGRA INTEGER NOT NULL, ALEATORIO BOOLEAN NOT NULL DEFAULT false);
 
+CREATE TABLE IF NOT EXISTS ALTERNATIVA (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, PERGUNTA_ID INTEGER CONSTRAINT fk_pergunta_alternativa REFERENCES PERGUNTA (ID), DESCRICAO STRING (0) NOT NULL, CORRETA BOOLEAN NOT NULL DEFAULT false);
+
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VALUES (1, 'Qual é a distância entre a marca penal e a linha de gol?', 'F', 1, 'true');
-INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VALUES (2, 'Qual é a largura mínima do campo de jogo?', 'F', 1, 'true');
+INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VA-LUES (2, 'Qual é a largura mínima do campo de jogo?', 'F', 1, 'true');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VALUES (3, 'As redes de meta...', 'F', 1, 'true');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VALUES (4, 'Em relação à bola, qual das seguintes afirmações não está correta:', 'F', 1, 'true');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VALUES (5, 'As bandeirinhas da linha central...', 'F', 1, 'true');
@@ -825,8 +827,8 @@ INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VALUES (814, 'Na e
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VALUES (815, 'Qual das afirmações seguintes está correta em relação ao tiro de canto?', 'D', 15, 'false');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VALUES (816, 'Um jogador executa um tiro de canto em direção à sua meta. A bola toca no goleiro de sua equipe e entra na meta. Qual será a decisão do árbitro?', 'D', 15, 'true');
 INSERT INTO PERGUNTA (ID, DESCRICAO, LEVEL, REGRA, ALEATORIO) VALUES (817, 'Na execução de um tiro de canto, a bola sai pela linha de meta, sem ultrapassar uma das outras linhas do quarto de círculo. Qual será a decisão do árbitro?', 'D', 15, 'true');
--- Table: ALTERNATIVA
-CREATE TABLE IF NOT EXISTS ALTERNATIVA (ID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, PERGUNTA_ID INTEGER CONSTRAINT fk_pergunta_alternativa REFERENCES PERGUNTA (ID), DESCRICAO STRING (0) NOT NULL, CORRETA BOOLEAN NOT NULL DEFAULT false);
+
+
 INSERT INTO ALTERNATIVA (ID, PERGUNTA_ID, DESCRICAO, CORRETA) VALUES (4, 1, '10m (11 jardas)', 'false');
 INSERT INTO ALTERNATIVA (ID, PERGUNTA_ID, DESCRICAO, CORRETA) VALUES (5, 1, '11m (12 jardas)', 'true');
 INSERT INTO ALTERNATIVA (ID, PERGUNTA_ID, DESCRICAO, CORRETA) VALUES (6, 1, '9m (10 jardas)', 'false');
