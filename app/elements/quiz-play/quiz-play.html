@@ -4,6 +4,10 @@
       display: flex;
     }
 
+    paper-fab {
+      --paper-fab-keyboard-focus-background	: var(--default-primary-color);
+    }
+
     .question {
       font-size: 14px;
       height: 110px;
@@ -60,14 +64,14 @@
       position: absolute;
       background-color: #000;
       top: 162px;
-      left: 10px;
+      left: 13px;
     }
 
     .right {
       position: absolute;
       background-color: #000;
       top: 163px;
-      right: 10px;
+      right: 13px;
     }
 
   </style>
@@ -79,7 +83,7 @@
           <div flex class="count"><b>{{questionNumber}}</b>/<b>{{questions.length}}</b></div>
           <div flex>
             <div class="bola-futebol">
-              <ninja-countdown id="countdown" init-mins="30" hidden-hours="true" hidden-mins="false" hidden-secs="false" auto></ninja-countdown>
+              <ninja-countdown id="countdown" init-mins="30" auto></ninja-countdown>
             </div>
           </div>
         </div>
@@ -94,9 +98,9 @@
       </iron-pages>
     </div>
 
-    <paper-fab class="left" icon="arrow-back" alt="arrow-back" mini on-tap="back"></paper-fab>
+    <paper-fab noink class="left" icon="arrow-back" alt="arrow-back" mini on-tap="back"></paper-fab>
     <paper-button attr-for-selected="data-route" on-tap="finish" raised>Finalizar</paper-button>
-    <paper-fab class="right" icon="arrow-forward" alt="arrow-forward" mini on-tap="forward"></paper-fab>
+    <paper-fab noink class="right" icon="arrow-forward" alt="arrow-forward" mini on-tap="forward"></paper-fab>
   </template>
 
   <script>

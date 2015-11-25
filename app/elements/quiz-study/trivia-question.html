@@ -29,6 +29,10 @@
       --paper-radio-button-label-color: red;
     }
 
+    paper-fab {
+      --paper-fab-keyboard-focus-background	: var(--default-primary-color);
+    }
+
     .question {
       height: 130px;
       width: 100%;
@@ -94,7 +98,7 @@
   </style>
   <template>
     <div class="question"> <span style="margin: auto">{{question.DESCRICAO}}</span></div>
-    <paper-fab class="validator" mini icon="check" disabled="{{desabilitado}}" on-tap="valida"></paper-fab>
+    <paper-fab noink class="validator" mini icon="check" disabled="{{desabilitado}}" on-tap="valida"></paper-fab>
     <div class="content" id="style-4">
         <paper-radio-group style="width: 100%" selected="{{answer}}">
           <template is="dom-repeat" items="{{question.alternatives}}">
@@ -102,7 +106,9 @@
           </template>
         </paper-radio-group>
      </div>
-    <ninja-countdown id="countdowninit" init-secs="3" hidden-hours="true" hidden-mins="true" hidden-secs="true" auto></ninja-countdown>
+    <span hidden>
+      <ninja-countdown id="countdowninit" init-secs="3" auto></ninja-countdown>
+    </span>
   </template>
 
   <script>

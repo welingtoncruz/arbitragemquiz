@@ -4,6 +4,10 @@
       display: flex;
     }
 
+    paper-fab {
+      --paper-fab-keyboard-focus-background	: var(--default-primary-color);
+    }
+
     .question {
       font-size: 14px;
       height: 110px;
@@ -46,14 +50,14 @@
       position: absolute;
       background-color: #000;
       top: 162px;
-      left: 10px;
+      left: 13px;
     }
 
     .right {
       position: absolute;
       background-color: #000;
       top: 163px;
-      right: 10px;
+      right: 13px;
     }
 
     .acerto {
@@ -102,12 +106,14 @@
       </iron-pages>
     </div>
 
-    <paper-fab class="left" icon="arrow-back" alt="arrow-back" mini on-tap="back" disabled="{{desabilitado}}"></paper-fab>
+    <paper-fab noink class="left" icon="arrow-back" alt="arrow-back" mini on-tap="back" disabled="{{desabilitado}}"></paper-fab>
     <paper-button attr-for-selected="data-route" on-tap="finish" raised>Finalizar</paper-button>
-    <paper-fab class="right" icon="arrow-forward" alt="arrow-forward" mini on-tap="forward" disabled="{{desabilitado}}"></paper-fab>
+    <paper-fab noink class="right" icon="arrow-forward" alt="arrow-forward" mini on-tap="forward" disabled="{{desabilitado}}"></paper-fab>
     <paper-spinner id="spinner" alt="Loading" active class="red" style="position: absolute; left: 44%; top: 200px;"></paper-spinner>
-    <ninja-countdown id="countdowninit" init-secs="3" hidden-hours="true" hidden-mins="true" hidden-secs="true" auto></ninja-countdown>
 
+    <span hidden>
+      <ninja-countdown id="countdowninit" init-secs="3" auto></ninja-countdown>
+    </span>
   </template>
 
   <script>
