@@ -12,4 +12,5 @@ body {
   font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   background-color: #fff;
   color: #333;
+  -webkit-user-select: none;
 }
