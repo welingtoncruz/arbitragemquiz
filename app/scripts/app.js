@@ -55,9 +55,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       $.get('database/quizFifaApp.sql', function (response) {
         processQuery(db, 2, response.split(';\n'), 'quizFifaApp');
       });
-    } else {
-      app.route = "home";
     }
+    app.route = "home";
   }
 
   function processQuery(db, i, queries, dbname) {

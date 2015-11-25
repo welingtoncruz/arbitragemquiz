@@ -173,9 +173,9 @@
                 <h3 class="paper-font-body2">Escolha o nível do teste:</h3>
 
                 <paper-radio-group selected="{{levelSelected}}">
-                  <paper-radio-button name="F">Fácil</paper-radio-button>
-                  <paper-radio-button name="D">Dificil</paper-radio-button>
-                  <paper-radio-button name="">Aleatório</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="F">Fácil</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="D">Dificil</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="">Aleatório</paper-radio-button>
                 </paper-radio-group>
               </div>
             </paper-material>
@@ -183,17 +183,17 @@
 
           <paper-material elevation="0">
             <div class="level">
-              <paper-button attr-for-selected="data-route" on-tap="study" raised>Trívia</paper-button>
+              <paper-button attr-for-selected="data-route" on-tap="study" disabled="{{desabilitado}}" raised>Trívia</paper-button>
             </div>
           </paper-material>
 
           <paper-material elevation="0">
             <div class="level">
-              <paper-button attr-for-selected="data-route" on-tap="quiz" raised>Trívia Quiz</paper-button>
+              <paper-button attr-for-selected="data-route" on-tap="quiz" disabled="{{desabilitado}}" raised>Trívia Quiz</paper-button>
             </div>
           </paper-material>
         </div>
-
+        <paper-spinner id="spinner" alt="Loading" class="red" style="position: absolute; left: 44%; top: 230px;"></paper-spinner>
       </paper-header-panel>
     </paper-drawer-panel>
   </template>
@@ -207,17 +207,28 @@
           levelSelected : {
             type : String,
             value : ""
+          },
+          desabilitado: {
+            type: Boolean,
+            value: false
           }
+        },
+
+        toggle: function() {
+          this.desabilitado = !this.desabilitado;
+          this.$.spinner.active = !this.$.spinner.active;
         },
 
         study_function: function() {
           var quizStudy = new QuizStudy();
           quizStudy.level = this.levelSelected;
           Polymer.dom(document.getElementById('route-study')).appendChild(quizStudy);
+          this.toggle();
           app.route = 'trivia-study';
         },  
 
         study: function() {
+          this.toggle();
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           var countPromise = this.getQuestoesCount(db);
           $.when(countPromise).done($.proxy(function(count) {
@@ -255,10 +266,12 @@
           var quizTrivia = new QuizTrivia();
           quizTrivia.level = this.levelSelected;
           Polymer.dom(document.getElementById('route-trivia')).appendChild(quizTrivia);
+          this.toggle();
           app.route = 'trivia-quiz';
         },
 
         quiz: function() {
+          this.toggle();
           var db = openDatabase('quizFifaApp', '1.0', 'quizFifaApp', 10000000);
           var countPromise = this.getQuestoesCount(db);
           $.when(countPromise).done($.proxy(function(count) {
