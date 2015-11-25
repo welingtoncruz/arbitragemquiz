@@ -186,7 +186,6 @@
         <!-- Main Content -->
         <div style="width: 100%;">
           <div class="content" id="style-4">
-            <paper-material elevation="0">
               <div class="header">
                 <h1> Regras </h1>
               </div>
@@ -208,7 +207,6 @@
                   <paper-radio-button disabled="{{desabilitado}}" name="15">Regra 15: O arremesso lateral</paper-radio-button>
                 </paper-radio-group>
               </div>
-            </paper-material>
           </div>
         </div>
 
@@ -296,14 +294,14 @@
             var countPromise = this.getAlternativaCount(db, questions_id);
             $.when(countPromise).done($.proxy(function(count) {
               this.validaAlternativas(db, count, questions, questions_id);
-            },this));  
+            },this));
           } else {
             var triviaPlay = new TriviaPlay();
             Polymer.dom(document.getElementById('quiz-study')).appendChild(triviaPlay);
             triviaPlay.questions = questions;
             app.route = 'study';
             this.destroyQuiz();
-          } 
+          }
         },
 
         getAlternativaCount: function (db, questions_id) {

@@ -107,7 +107,7 @@
     </div>
 
     <paper-fab noink class="left" icon="arrow-back" alt="arrow-back" mini on-tap="back" disabled="{{desabilitado}}"></paper-fab>
-    <paper-button attr-for-selected="data-route" on-tap="finish" raised>Finalizar</paper-button>
+    <paper-button attr-for-selected="data-route" on-tap="finish" disabled="{{desabilitado}}" raised>Finalizar</paper-button>
     <paper-fab noink class="right" icon="arrow-forward" alt="arrow-forward" mini on-tap="forward" disabled="{{desabilitado}}"></paper-fab>
     <paper-spinner id="spinner" alt="Loading" active class="red" style="position: absolute; left: 44%; top: 200px;"></paper-spinner>
 
