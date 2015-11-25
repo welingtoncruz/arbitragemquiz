@@ -94,14 +94,15 @@
   </style>
   <template>
     <div class="question"> <span style="margin: auto">{{question.DESCRICAO}}</span></div>
-    <paper-fab class="validator" mini icon="check" on-tap="valida" disabled="{{respondida}}"></paper-fab>
+    <paper-fab class="validator" mini icon="check" on-tap="valida"></paper-fab>
     <div class="content" id="style-4">
         <paper-radio-group style="width: 100%" selected="{{answer}}">
           <template is="dom-repeat" items="{{question.alternatives}}">
-            <paper-radio-button id="{{item.ID}}" name="{{item}}" disabled="{{respondida}}">{{item.DESCRICAO}}</paper-radio-button>
+            <paper-radio-button id="{{item.ID}}" name="{{item}}">{{item.DESCRICAO}}</paper-radio-button>
           </template>
         </paper-radio-group>
      </div>
+    <ninja-countdown id="countdowninit" init-secs="2" hidden-hours="true" hidden-mins="true" hidden-secs="true" auto></ninja-countdown>
   </template>
 
   <script>
@@ -134,6 +135,11 @@
             type: Boolean,
             value: false,
             notify: true
+          },
+          desabilitado: {
+            type: Boolean,
+            value: true,
+            notify: true
           }
 
         },
@@ -142,6 +148,18 @@
           'change(carregouAlternativas)',
           'changeAnswer(answer)'
         ],
+
+        ready: function() {
+          this.$.countdowninit.addEventListener('finished', $.proxy(this.toggle, this));
+        },
+
+        getDisabled : function() {
+          return this.respondida || this.desabilitado;
+        },
+
+        toggle: function() {
+          this.desabilitado = false;
+        },
 
         change: function(changeRecord) {
           if (changeRecord === 1) {

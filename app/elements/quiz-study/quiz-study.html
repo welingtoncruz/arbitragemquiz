@@ -193,25 +193,28 @@
               <span class="paper-font-body2">Regras de jogo de futebol conforme consta no livro oficial da FIFA distribuído aos juízes brasileiros, autorizado pela International Football Association Board (IFAB).</span>
               <div class="level">
                 <h3 class="paper-font-body2">Escolha uma das regras:</h3>
-                <paper-radio-group selected="{{rule}}">
-                  <paper-radio-button name="1">Regra 1: O campo de jogo / Regra 2: A bola</paper-radio-button>
-                  <paper-radio-button name="3">Regra 3: O número de jogadores</paper-radio-button>
-                  <paper-radio-button name="4">Regra 4: O equipamento dos jogadores</paper-radio-button>
-                  <paper-radio-button name="5">Regra 5: O árbitro</paper-radio-button>
-                  <paper-radio-button name="6">Regra 6: Os árbitros assistentes</paper-radio-button>
-                  <paper-radio-button name="7">Regra 7: A duração da partida</paper-radio-button>
-                  <paper-radio-button name="9">Regra 9: Bola em jogo e fora de jogo</paper-radio-button>
-                  <paper-radio-button name="11">Regra 11: O impedimento</paper-radio-button>
-                  <paper-radio-button name="12">Regra 12: As faltas e Incorreções</paper-radio-button>
-                  <paper-radio-button name="13">Regra 13: Os tiros livres</paper-radio-button>
-                  <paper-radio-button name="14">Regra 14: O tiro penal</paper-radio-button>
-                  <paper-radio-button name="15">Regra 15: O arremesso lateral</paper-radio-button>
+                <paper-radio-group selected="{{rule}}" >
+                  <paper-radio-button disabled="{{desabilitado}}" name="1">Regra 1: O campo de jogo / Regra 2: A bola</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="3">Regra 3: O número de jogadores</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="4">Regra 4: O equipamento dos jogadores</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="5">Regra 5: O árbitro</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="6">Regra 6: Os árbitros assistentes</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="7">Regra 7: A duração da partida</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="9">Regra 9: Bola em jogo e fora de jogo</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="11">Regra 11: O impedimento</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="12">Regra 12: As faltas e Incorreções</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="13">Regra 13: Os tiros livres</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="14">Regra 14: O tiro penal</paper-radio-button>
+                  <paper-radio-button disabled="{{desabilitado}}" name="15">Regra 15: O arremesso lateral</paper-radio-button>
                 </paper-radio-group>
               </div>
             </paper-material>
           </div>
         </div>
-        <paper-button class="paper-button" attr-for-selected="data-route" on-tap="select" raised>Iniciar</paper-button>
+
+        <paper-spinner id="spinner" alt="Loading" class="red" style="position: absolute; left: 44%; top: 230px;"></paper-spinner>
+        <paper-button class="paper-button" attr-for-selected="data-route" on-tap="select" disabled="{{desabilitado}}" raised>Iniciar</paper-button>
+
       </paper-header-panel>
     </paper-drawer-panel>
   </template>
@@ -226,10 +229,20 @@
           rule: {
             type: String,
             value: "1"
+          },
+          desabilitado: {
+            type: Boolean,
+            value: false
           }
         },
 
+        toggle: function() {
+          this.$.spinner.active = !this.$.spinner.active;
+        },
+
         select: function() {
+          this.desabilitado = true;
+          this.toggle();
           this.getQuestions();
         },
 

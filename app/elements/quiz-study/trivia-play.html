@@ -34,12 +34,6 @@
       height: 50px;
     }
 
-    ninja-countdown {
-      position: absolute;
-      margin-top: 17px;
-      margin-left: 4px
-    }
-
     paper-button {
       width: 96%;
       background-color: var(--default-primary-color);
@@ -108,9 +102,12 @@
       </iron-pages>
     </div>
 
-    <paper-fab class="left" icon="arrow-back" alt="arrow-back" mini on-tap="back"></paper-fab>
+    <paper-fab class="left" icon="arrow-back" alt="arrow-back" mini on-tap="back" disabled="{{desabilitado}}"></paper-fab>
     <paper-button attr-for-selected="data-route" on-tap="finish" raised>Finalizar</paper-button>
-    <paper-fab class="right" icon="arrow-forward" alt="arrow-forward" mini on-tap="forward"></paper-fab>
+    <paper-fab class="right" icon="arrow-forward" alt="arrow-forward" mini on-tap="forward" disabled="{{desabilitado}}"></paper-fab>
+    <paper-spinner id="spinner" alt="Loading" active class="red" style="position: absolute; left: 44%; top: 200px;"></paper-spinner>
+    <ninja-countdown id="countdowninit" init-secs="3" hidden-hours="true" hidden-mins="true" hidden-secs="true" auto></ninja-countdown>
+
   </template>
 
   <script>
@@ -139,7 +136,20 @@
             type: Number,
             value: 0,
             notify: true
+          },
+          desabilitado: {
+            type: Boolean,
+            value: true
           }
+        },
+
+        toggle: function() {
+          this.desabilitado = false;
+          this.$.spinner.active = !this.$.spinner.active;
+        },
+
+        ready: function() {
+          this.$.countdowninit.addEventListener('finished', $.proxy(this.toggle, this));
         },
 
         back: function() {

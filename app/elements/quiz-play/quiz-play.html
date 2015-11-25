@@ -79,7 +79,7 @@
           <div flex class="count"><b>{{questionNumber}}</b>/<b>{{questions.length}}</b></div>
           <div flex>
             <div class="bola-futebol">
-              <ninja-countdown id="countdown" init-mins="30" auto show-mins show-secs></ninja-countdown>
+              <ninja-countdown id="countdown" init-mins="1" auto hidden-hours="true" hidden-mins="false" hidden-secs="false"></ninja-countdown>
             </div>
           </div>
         </div>
@@ -165,6 +165,7 @@
         },
 
         destroyQuiz: function() {
+          this.$.countdown.stop();
           Polymer.dom(document.getElementById('route-quiz')).removeChild(this);
         }
       });
